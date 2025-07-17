@@ -101,13 +101,16 @@
   <p class="bio">{{ bio }}</p>
 
   <!-- SNS 아이콘 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <div class="social-icons">
-    <a href="https://instagram.com/sera_influencer" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://tiktok.com/@sera_influencer" target="_blank"><i class="fab fa-tiktok"></i></a>
-    <a href="https://x.com/sera_influencer" target="_blank"><i class="fab fa-twitter"></i></a>
-    <a href="mailto:sera@email.com"><i class="fas fa-envelope"></i></a>
-    <a href="https://youtube.com/@sera_influencer" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="{{ social_links.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="{{ social_links.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
+    <a href="{{ social_links.x }}" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="{{ social_links.email }}"><i class="fas fa-envelope"></i></a>
+    <a href="{{ social_links.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
   </div>
+  
 
   <!-- 링크 버튼 목록 -->
   <div class="link-list">
