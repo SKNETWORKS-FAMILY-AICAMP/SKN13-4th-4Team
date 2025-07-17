@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
+{% load static %} 
 {% block content %}
 <h2>세라의 추천 아이템 🛍️</h2>
 <ul>
   <li><strong>무릎 보호대</strong> – “하루 종일 착용해도 편안해요!”</li>
   <li><strong>폼롤러</strong> – “이건 진짜 필라테스 필수템 😍”</li>
+  <div class="sns-post">
+    <img src="{% static 'core/static/images/AI_influencere_img_2.png' %}" alt="프로필">
+    <p>이 운동복은 요즘 가장 인기 있는 제품이에요!<br>#운동복리뷰 #협찬</p>
+  </div>
 </ul>
 {% endblock %}
