@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}AI 인플루언서 세라 SERA(Smart Exercise & Rehabilitation AI){% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Nunito', 'Noto Sans KR', sans-serif;
+            font-weight: 300;
+            display: flex;
+            min-height: 100vh;
+            background-color: #fff0f5;
+        }
+
+        nav {
+            background-color: hotpink;
+            width: 200px;
+            padding: 20px;
+            color: white;
+            height: 100vh;
+        }
+        nav h2 {
+            color: white;
+        }
+        nav a {
+            color: white;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            flex-grow: 1;
+            padding: 40px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #ffe6f0;
+            font-size: 0.9em;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid hotpink;
+            border-radius: 5px;
+            width: 60%;
+        }
+        button {
+            background-color: hotpink;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .comment {
+            margin: 10px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2><a href="/">세라 SERA</a></h2>
+        <a href="/">홈</a>
+        <a href="/chat/">챗</a>
+        <a href="/feed/">피드</a>
+        <a href="/products/">추천템</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <small>© 2025 SERA</small>
+    </footer>
+</body>
+</html>
