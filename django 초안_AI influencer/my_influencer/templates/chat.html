@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+{% block title %}세라와 대화하기{% endblock %}
+{% block content %}
+<h2>세라와 대화해보세요 💬</h2>
+<p>궁금한 점이나 불편한 부위를 입력해보세요.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="user_input" placeholder="예: 어깨가 아파요" required id="chat-input">
+    <button type="submit">전송</button>
+</form>
+
+<div id="chat-response">
+    {% if response %}
+        <p><strong>세라:</strong> {{ response }}</p>
+    {% endif %}
+</div>
+
+<script>
+    const input = document.getElementById('chat-input');
+    input.addEventListener('focus', () => {
+        input.style.transition = 'box-shadow 0.3s ease';
+        input.style.boxShadow = '0 0 8px hotpink';
+    });
+    input.addEventListener('blur', () => {
+        input.style.boxShadow = 'none';
+    });
+</script>
+{% endblock %}
