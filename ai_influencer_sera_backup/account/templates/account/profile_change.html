@@ -1,0 +1,228 @@
+{% extends 'main_layout.html' %}
+{% load static %}
+
+{% block title %}회원정보변경 - SERA{% endblock %}
+
+{% block content %}
+    <!-- 메시지 표시 -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- 페이지 컨테이너 -->
+    <div class="page-container">
+        <!-- 왼쪽 네비게이션 바 -->
+        <div class="left-navbar">
+            <h2><a href="/">재활 운동 전문 SERA💕</a></h2>
+            <a href="/">홈</a>
+            <a href="/chat/">재활운동 질문하기</a>
+            <a href="/feed/">운동 피드 보기</a>
+            <a href="#" onclick="showComingSoon()">추천 운동 아이템</a>
+            <a href="#" onclick="checkLoginForVote()">다음 컨텐츠 투표</a>
+        </div>
+
+        <!-- 메인 컨테이너 -->
+        <div class="main-container">
+            <!-- 프로필 헤더 -->
+            <div class="profile-header">
+                <h1>회원정보 관리</h1>
+                <div class="profile-image-container">
+                    {% if profile and profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="프로필 이미지" class="profile-image">
+                    {% else %}
+                        <img src="{% static 'images/profile_img.png' %}" alt="기본 프로필 이미지" class="profile-image">
+                    {% endif %}
+                </div>
+                <p style="color: #666;">{{ user.username }}님의 정보를 관리하세요</p>
+            </div>
+
+            <!-- 프로필 수정 폼 -->
+            <div class="profile-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- 기본 정보 섹션 -->
+                    <div class="form-section">
+                        <h3>📋 기본 정보</h3>
+
+                        <div class="form-group">
+                            <label for="username">아이디</label>
+                            <input type="text" id="username" value="{{ user.username }}" class="readonly" readonly>
+                            <small style="color: #999; font-size: 12px;">아이디는 변경할 수 없습니다.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="first_name">이름 <span style="color: #ff1493;">*</span></label>
+                            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">이메일 <span style="color: #ff1493;">*</span></label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date_joined">가입일</label>
+                            <input type="text" id="date_joined" value="{{ user.date_joined|date:'Y년 m월 d일' }}" class="readonly" readonly>
+                        </div>
+                    </div>
+
+                    <!-- 비밀번호 변경 섹션 -->
+                    <div class="form-section">
+                        <h3>🔒 비밀번호 변경</h3>
+                        <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                            비밀번호를 변경하지 않으려면 아래 필드들을 비워두세요.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="current_password">현재 비밀번호</label>
+                            <input type="password" id="current_password" name="current_password" placeholder="현재 비밀번호를 입력하세요">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new_password">새 비밀번호</label>
+                            <input type="password" id="new_password" name="new_password" placeholder="새 비밀번호 (6자 이상)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new_password_confirm">새 비밀번호 확인</label>
+                            <input type="password" id="new_password_confirm" name="new_password_confirm" placeholder="새 비밀번호를 다시 입력하세요">
+                        </div>
+                    </div>
+
+                    <!-- 추가 정보 섹션 -->
+                    <div class="form-section">
+                        <h3>🏠 추가 정보</h3>
+
+                        <div class="form-group">
+                            <label for="address">주소</label>
+                            <textarea id="address" name="address" placeholder="주소를 입력해주세요 (선택사항)">{% if profile %}{{ profile.address }}{% endif %}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profile_image">프로필 이미지</label>
+                            <input type="file" id="profile_image" name="profile_image" accept="image/*">
+                            <small style="color: #999; font-size: 12px; display: block; margin-top: 5px;">
+                                JPG, PNG 파일만 업로드 가능 (최대 5MB)
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- 버튼 그룹 -->
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">정보 수정</button>
+                        <a href="/" class="btn btn-secondary">취소</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 메시지 자동 숨김
+        setTimeout(function() {
+            const messages = document.querySelector('.messages');
+            if (messages) {
+                messages.style.display = 'none';
+            }
+        }, 5000);
+
+        // 로그인 상태 확인 후 투표 페이지 이동
+        function checkLoginForVote() {
+            fetch('/api/check-login/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_authenticated) {
+                        window.location.href = '/vote/';
+                    } else {
+                        alert('로그인을 하세요.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('로그인을 하세요.');
+                });
+        }
+
+        // 파일 업로드 크기 제한
+        const fileInput = document.getElementById('profile_image');
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                if (file.size > maxSize) {
+                    alert('파일 크기는 5MB 이하여야 합니다.');
+                    this.value = '';
+                }
+            }
+        });
+
+        // 비밀번호 실시간 검사
+        const newPassword = document.getElementById('new_password');
+        const newPasswordConfirm = document.getElementById('new_password_confirm');
+
+        newPasswordConfirm.addEventListener('input', function() {
+            if (newPassword.value !== newPasswordConfirm.value) {
+                newPasswordConfirm.style.borderColor = '#ff6b6b';
+                newPasswordConfirm.style.boxShadow = '0 0 0 3px rgba(255, 107, 107, 0.1)';
+            } else {
+                newPasswordConfirm.style.borderColor = '#4ecdc4';
+                newPasswordConfirm.style.boxShadow = '0 0 0 3px rgba(78, 205, 196, 0.1)';
+            }
+        });
+
+        // 폼 제출 시 확인
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.getElementById('first_name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const currentPassword = document.getElementById('current_password').value.trim();
+            const newPasswordVal = document.getElementById('new_password').value.trim();
+            const newPasswordConfirmVal = document.getElementById('new_password_confirm').value.trim();
+
+            // 필수 필드 검사
+            if (!name || !email) {
+                e.preventDefault();
+                alert('이름과 이메일은 필수 항목입니다.');
+                return;
+            }
+
+            // 비밀번호 변경 검사
+            if (currentPassword || newPasswordVal || newPasswordConfirmVal) {
+                if (!currentPassword || !newPasswordVal || !newPasswordConfirmVal) {
+                    e.preventDefault();
+                    alert('비밀번호 변경을 위해서는 모든 비밀번호 필드를 입력해주세요.');
+                    return;
+                }
+
+                if (newPasswordVal !== newPasswordConfirmVal) {
+                    e.preventDefault();
+                    alert('새 비밀번호가 일치하지 않습니다.');
+                    return;
+                }
+
+                if (newPasswordVal.length < 6) {
+                    e.preventDefault();
+                    alert('새 비밀번호는 6자 이상이어야 합니다.');
+                    return;
+                }
+
+                if (confirm('비밀번호를 변경하면 다시 로그인해야 합니다. 계속하시겠습니까?')) {
+                    return true;
+                } else {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+            if (confirm('회원정보를 수정하시겠습니까?')) {
+                return true;
+            } else {
+                e.preventDefault();
+            }
+        });
+    </script>
+{% endblock %}

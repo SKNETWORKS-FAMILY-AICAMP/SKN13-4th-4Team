@@ -103,9 +103,10 @@
     .profile-image {
       width: 150px;
       height: 150px;
-      border-radius: 50%; /* 동그라미 모양 */
+      border-radius: 50%; /* 사각형 모양 */
       object-fit: cover; /* 이미지 꽉 채우기 */
       border: 4px solid hotpink;
+      aspect-ratio: 1/1; /* 1:1 비율 강제 */
     }
         
     .social-icons {
@@ -113,16 +114,16 @@
       display: flex;
       justify-content: center;
       gap: 24px;
-      font-size: 32px; /* ✅ 기본 아이콘 크기 키움 */
+      font-size: 32px; 
     }
 
     .social-icons a {
-      color: #000; /* ✅ 검정색 */
+      color: #000; 
       transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
     }
 
     .social-icons a:hover {
-      transform: scale(1.1); /* ✅ 1.3배 확대 */
+      transform: scale(1.1); 
       color: hotpink;
     }
 
@@ -172,7 +173,7 @@
       {% if user.is_authenticated %}
         <span class="user-info">{{ user.username }}님 환영합니다!</span>
         <a href="/logout/" class="auth-btn">로그아웃</a>
-        <a href="/profile/" class="auth-btn">회원정보</a>
+        <a href="/account/" class="auth-btn">회원정보</a>
       {% else %}
         <a href="/login/" class="auth-btn">로그인</a>
       {% endif %}
@@ -216,6 +217,10 @@
         <a href="#" onclick="checkLoginForVote()" class="link-item" style="background-color: {{ link.bg }}">
           {{ link.name }}
         </a>
+      {% elif link.onclick %}
+        <a href="#" onclick="{{ link.onclick }}" class="link-item" style="background-color: {{ link.bg }}">
+          {{ link.name }}
+        </a>
       {% else %}
         <a href="{{ link.url }}" class="link-item" style="background-color: {{ link.bg }}">
           {{ link.name }}
@@ -233,19 +238,12 @@
   <script>
     // 로그인 상태 확인 후 투표 페이지 이동
     function checkLoginForVote() {
-      fetch('/api/check-login/')
-        .then(response => response.json())
-        .then(data => {
-          if (data.is_authenticated) {
-            window.location.href = '/vote/';
-          } else {
-            alert('로그인을 하세요.');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('오류가 발생했습니다.');
-        });
+      alert('준비 중입니다.');
+    }
+
+    // 준비중 알림 표시
+    function showComingSoon() {
+      alert('준비중입니다!');
     }
 
     // 메시지 자동 숨김

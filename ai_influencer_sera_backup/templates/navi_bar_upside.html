@@ -1,5 +1,3 @@
-<!-- mypoll/templates/layouts/main_layout.html -->
-<!-- 모든 페이지의 공통부분을 구현한 template  -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -43,7 +41,8 @@
         .auth-section {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 15px;                  
+
         }
 
         .auth-btn {
@@ -66,59 +65,6 @@
         .user-info {
             color: #666;
             font-weight: 500;
-        }
-
-        /* 기존 사이드 네비게이션 */
-        .container {
-            display: flex;
-            min-height: calc(100vh - 70px);
-        }
-
-        nav {
-            background-color: hotpink;
-            width: 200px;
-            padding: 20px;
-            color: white;
-            min-height: calc(100vh - 70px);
-        }
-        nav h2 {
-            color: white;
-        }
-        nav a {
-            color: white;
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        main {
-            flex-grow: 1;
-            padding: 40px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #ffe6f0;
-            font-size: 0.9em;
-        }
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            border: 2px solid hotpink;
-            border-radius: 5px;
-            width: 60%;
-        }
-        button {
-            background-color: hotpink;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .comment {
-            margin: 10px 0;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
         }
 
         /* 메시지 스타일 */
@@ -145,6 +91,8 @@
             border: 1px solid #f5c6cb;
         }
     </style>
+
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -171,39 +119,10 @@
         </div>
     {% endif %}
 
+    <!-- 페이지 내용 -->
     {% block content %}
     {% endblock %}
 
-<script>
-    // 로그인 상태 확인 후 투표 페이지 이동
-    function checkLoginForVote() {
-        fetch('/api/check-login/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.is_authenticated) {
-                    window.location.href = '/vote/';
-                } else {
-                    alert('로그인을 하세요.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('로그인을 하세요.');
-            });
-    }
-
-    // 준비 중 알림
-    function showComingSoon() {
-        alert('준비 중입니다.');
-    }
-
-    // 메시지 자동 숨김
-    setTimeout(function() {
-        const messages = document.querySelector('.messages');
-        if (messages) {
-            messages.style.display = 'none';
-        }
-    }, 5000);
-</script>
+    <!-- 스크립트 -->
+    {% block extra_js %}{% endblock %}
 </body>
-</html>

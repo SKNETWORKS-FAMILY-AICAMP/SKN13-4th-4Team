@@ -23,7 +23,7 @@ from chat import views as chat_views
 from feed import views as feed_views
 from vote import views as vote_views
 from account import views as account_views
-from django.views.generic import TemplateView
+
 
 
 
@@ -31,12 +31,14 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Home app 
-    path('', TemplateView.as_view(template_name="home.html"), name="home"),
+    # Home app
+    path('', home_views.home_view, name="home"),
     # Chat app
     path('chat/', chat_views.chat, name='chat'),
     # Feed app
     path('feed/', feed_views.feed, name='feed'),
+    path('feed/like/<int:post_id>/', feed_views.toggle_like, name='toggle_like'),
+    path('feed/delete-comment/<int:comment_id>/', feed_views.delete_comment, name='delete_comment'),
     # Vote app
     path('vote/', vote_views.vote, name='vote'),
     # Account app
