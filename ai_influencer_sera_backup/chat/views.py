@@ -10,14 +10,15 @@ from dotenv import load_dotenv
 load_dotenv() # 환경 변수 로드
 
 # OpenAI 클라이언트 초기화
-try:
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-except Exception as e:
-    client = None
-    print(f"OpenAI 클라이언트 초기화 실패: {e}")
 
 
 def chat(request):
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        return render(request, 'chat.html', {'error_message': 'OpenAI API 키가 설정되지 않았습니다.'})
+
+    client = OpenAI(api_key=api_key)
+
     """AI 채팅 뷰 - OpenAI GPT를 사용한 질문 응답"""
     response = None
     error_message = None

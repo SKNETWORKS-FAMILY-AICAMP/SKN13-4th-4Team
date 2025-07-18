@@ -117,3 +117,4 @@ class ManagerUserUserPermissions(models.Model):
         managed = False
         db_table = 'manager_user_user_permissions'
         unique_together = (('user', 'permission'),)
+

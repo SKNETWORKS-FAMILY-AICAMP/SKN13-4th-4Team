@@ -29,6 +29,16 @@ class FeedPost(models.Model):
         return self.comments.count()
     comment_count.short_description = '댓글 수'
 
+    def get_likes_count(self):
+        """실제 좋아요 수"""
+        return self.likes.count()
+
+    def is_liked_by_user(self, user):
+        """특정 사용자가 좋아요를 눌렀는지 확인"""
+        if user.is_authenticated:
+            return self.likes.filter(user=user).exists()
+        return False
+
 
 class FeedComment(models.Model):
     """피드 댓글 모델"""
@@ -44,3 +54,18 @@ class FeedComment(models.Model):
 
     def __str__(self):
         return f"{self.author.username}: {self.content[:50]}"
+
+
+class FeedLike(models.Model):
+    """피드 좋아요 모델"""
+    post = models.ForeignKey(FeedPost, on_delete=models.CASCADE, related_name='likes', verbose_name='포스트')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='사용자')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='좋아요 날짜')
+
+    class Meta:
+        verbose_name = '피드 좋아요'
+        verbose_name_plural = '피드 좋아요들'
+        unique_together = ('post', 'user')  # 한 사용자가 같은 포스트에 중복 좋아요 방지
+
+    def __str__(self):
+        return f"{self.user.username} likes {self.post.title}"

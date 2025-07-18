@@ -1,0 +1,408 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다음 컨텐츠 투표 - SERA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe6f0 100%);
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+
+        /* 상단 네비게이션 바 */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 182, 193, 0.3);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #ff1493;
+            text-decoration: none;
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background-color: #ff69b4;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .auth-btn:hover {
+            background-color: #ff1493;
+            transform: translateY(-1px);
+        }
+
+        .user-info {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* 페이지 컨테이너 */
+        .page-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 왼쪽 네비게이션 바 */
+        .left-navbar {
+            background-color: hotpink;
+            width: 200px;
+            padding: 20px;
+            color: white;
+            min-height: calc(100vh - 70px);
+        }
+
+        .left-navbar h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .left-navbar h2 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .left-navbar a {
+            color: white;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .left-navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding-left: 10px;
+            border-radius: 5px;
+        }
+
+        /* 메인 컨테이너 */
+        .main-container {
+            flex: 1;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .vote-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .vote-header h1 {
+            color: #ff1493;
+            font-size: 2.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .vote-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .vote-question {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .vote-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .vote-option {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid #ffb6c1;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .vote-option:hover {
+            border-color: #ff69b4;
+            background-color: #fff0f5;
+            transform: translateY(-2px);
+        }
+
+        .vote-option input[type="radio"] {
+            margin-right: 20px;
+            transform: scale(1.3);
+            accent-color: #ff69b4;
+        }
+
+        .option-content h3 {
+            color: #ff1493;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .option-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .vote-option input[type="radio"]:checked + .option-content h3 {
+            color: #ff1493;
+        }
+
+        .vote-option input[type="radio"]:checked + .option-content {
+            color: #ff1493;
+        }
+
+        .vote-btn {
+            margin-top: 25px;
+            padding: 18px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .vote-info {
+            background: #fff0f5;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .vote-info p {
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* 메시지 스타일 */
+        .messages {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1001;
+        }
+        .alert {
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .page-container {
+                flex-direction: column;
+            }
+
+            .left-navbar {
+                width: 100%;
+                min-height: auto;
+                padding: 15px;
+            }
+
+            .left-navbar a {
+                display: inline-block;
+                margin: 5px 10px 5px 0;
+                padding: 5px 10px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                font-size: 14px;
+            }
+
+            .main-container {
+                padding: 10px;
+            }
+
+            .vote-container {
+                padding: 20px;
+            }
+
+            .vote-option {
+                padding: 15px;
+            }
+
+            .vote-header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 상단 네비게이션 바 -->
+    <div class="top-navbar">
+        <a href="/" class="logo">SERA 💕</a>
+        <div class="auth-section">
+            {% if user.is_authenticated %}
+                <span class="user-info">{{ user.username }}님 환영합니다!</span>
+                <a href="/logout/" class="auth-btn">로그아웃</a>
+                <a href="/profile/" class="auth-btn">회원정보</a>
+            {% else %}
+                <a href="/login/" class="auth-btn">로그인</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 메시지 표시 -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- 페이지 컨테이너 -->
+    <div class="page-container">
+        <!-- 왼쪽 네비게이션 바 -->
+        <div class="left-navbar">
+            <h2><a href="/">재활 운동 전문 SERA💕</a></h2>
+            <a href="/">홈</a>
+            <a href="/chat/">재활운동 질문하기</a>
+            <a href="/feed/">운동 피드 보기</a>
+            <a href="/products/">추천 운동 아이템</a>
+            <a href="/vote/" style="background-color: rgba(255, 255, 255, 0.2); padding-left: 10px; border-radius: 5px;">다음 컨텐츠 투표</a>
+        </div>
+
+        <!-- 메인 컨테이너 -->
+        <div class="main-container">
+        <!-- 헤더 -->
+        <div class="vote-header">
+            <h1>다음 컨텐츠 투표 🗳️</h1>
+        </div>
+
+        <!-- 투표 컨테이너 -->
+        <div class="vote-container">
+            <div class="vote-question">다음에 어떤 운동 컨텐츠를 보고 싶으신가요?</div>
+
+            <form method="post" class="vote-form">
+                {% csrf_token %}
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="pilates">
+                    <div class="option-content">
+                        <h3>🧘‍♀️ 필라테스 기초 동작</h3>
+                        <p>초보자를 위한 기본 필라테스 동작과 자세 교정</p>
+                    </div>
+                </label>
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="rehabilitation">
+                    <div class="option-content">
+                        <h3>🏥 재활 운동 루틴</h3>
+                        <p>부위별 재활 운동과 통증 완화 방법</p>
+                    </div>
+                </label>
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="stretching">
+                    <div class="option-content">
+                        <h3>🤸‍♀️ 스트레칭 가이드</h3>
+                        <p>일상 속 간단한 스트레칭과 유연성 향상</p>
+                    </div>
+                </label>
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="nutrition">
+                    <div class="option-content">
+                        <h3>🥗 운동 영양학</h3>
+                        <p>운동 전후 영양 관리와 건강한 식단</p>
+                    </div>
+                </label>
+
+                <button type="submit" class="vote-btn">투표하기 ✨</button>
+            </form>
+        </div>
+
+        <!-- 투표 안내 -->
+        <div class="vote-info">
+            <p>
+                💡 투표 결과는 다음 주 컨텐츠 제작에 반영됩니다!<br>
+                여러분의 소중한 의견을 기다리고 있어요 💕
+            </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 메시지 자동 숨김
+        setTimeout(function() {
+            const messages = document.querySelector('.messages');
+            if (messages) {
+                messages.style.display = 'none';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

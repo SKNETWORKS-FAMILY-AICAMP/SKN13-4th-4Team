@@ -15,6 +15,7 @@ def home_view(request):
 NAVIGATION_LINKS = [
     {"name": "재활운동 질문하기", "url": "/chat/", "bg": "#FF69B4"},
     {"name": "운동 피드 보기", "url": "/feed/", "bg": "#FF1493"},
+    {"name": "추천 운동 아이템", "url": "#", "bg": "#DB7093", "onclick": "showComingSoon()"},
     {"name": "다음 컨텐츠 투표", "url": "/vote/", "bg": "#C71585", "login_required": True},
 ]
 

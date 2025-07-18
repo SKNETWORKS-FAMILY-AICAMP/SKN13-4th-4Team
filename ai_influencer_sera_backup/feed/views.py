@@ -4,16 +4,43 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from feed.models import FeedPost, FeedComment
+from django.views.decorators.csrf import csrf_exempt
+from feed.models import FeedPost, FeedComment, FeedLike
 
 
 def feed(request):
     """인스타그램 스타일 피드 페이지"""
+    # 댓글 추가 처리
+    if request.method == 'POST' and request.user.is_authenticated:
+        post_id = request.POST.get('post_id')
+        comment_content = request.POST.get('comment', '').strip()
+
+        if post_id and comment_content:
+            try:
+                post = FeedPost.objects.get(id=post_id)
+                FeedComment.objects.create(
+                    post=post,
+                    author=request.user,
+                    content=comment_content
+                )
+                messages.success(request, '댓글이 추가되었습니다.')
+            except FeedPost.DoesNotExist:
+                messages.error(request, '포스트를 찾을 수 없습니다.')
+
+        return redirect('feed')
+
     # 피드 포스트들을 가져오기 (없으면 샘플 데이터 생성)
     posts = FeedPost.objects.all()
 
+    # 각 포스트에 현재 사용자의 좋아요 상태 추가
+    for post in posts:
+        post.user_liked = post.is_liked_by_user(request.user)
+
+    print(f"DEBUG: Found {posts.count()} posts in database")
+
     # 샘플 데이터가 없으면 생성
     if not posts.exists():
+        print("DEBUG: No posts found, creating sample data...")
         sample_posts = [
             {
                 'title': '오늘의 필라테스 루틴 💪',
@@ -33,12 +60,80 @@ def feed(request):
         ]
 
         for post_data in sample_posts:
-            FeedPost.objects.create(**post_data)
+            post = FeedPost.objects.create(**post_data)
+            print(f"DEBUG: Created post: {post.title}")
 
         posts = FeedPost.objects.all()
+        # 새로 생성된 포스트들에도 좋아요 상태 추가
+        for post in posts:
+            post.user_liked = post.is_liked_by_user(request.user)
+        print(f"DEBUG: After creation, found {posts.count()} posts")
+
+    print(f"DEBUG: Rendering template with {posts.count()} posts")
     return render(request, 'feed.html', {'posts': posts})
 
 
 def feed_view(request):
     """피드 뷰"""
     return feed(request)
+
+
+@login_required
+@require_POST
+def delete_comment(request, comment_id):
+    """댓글 삭제 뷰"""
+    comment = get_object_or_404(FeedComment, id=comment_id)
+
+    # 작성자만 삭제 가능
+    if comment.author != request.user:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': '권한이 없습니다.'})
+        else:
+            messages.error(request, '자신의 댓글만 삭제할 수 있습니다.')
+            return redirect('feed')
+
+    # 댓글 삭제
+    comment.delete()
+
+    # AJAX 요청인 경우 JSON 응답
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'success': True, 'message': '댓글이 삭제되었습니다.'})
+
+    # 일반 요청인 경우 리다이렉트
+    messages.success(request, '댓글이 삭제되었습니다.')
+    return redirect('feed')
+
+
+@login_required
+@require_POST
+def toggle_like(request, post_id):
+    """좋아요 토글 기능"""
+    try:
+        post = get_object_or_404(FeedPost, id=post_id)
+        like, created = FeedLike.objects.get_or_create(
+            post=post,
+            user=request.user
+        )
+
+        if not created:
+            # 이미 좋아요가 있으면 삭제
+            like.delete()
+            liked = False
+        else:
+            # 새로 좋아요 추가
+            liked = True
+
+        # 실제 좋아요 수 계산
+        likes_count = post.get_likes_count()
+
+        return JsonResponse({
+            'success': True,
+            'liked': liked,
+            'likes_count': likes_count
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        })
