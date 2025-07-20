@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import path, include
 from home import views as home_views
 from chat import views as chat_views
 from feed import views as feed_views
@@ -32,7 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Home app
-    path('', home_views.home_view, name="home"),
+    path('', home_views.home, name="home"),
     # Chat app
     path('chat/', chat_views.chat, name='chat'),
     # Feed app
@@ -40,7 +40,7 @@ urlpatterns = [
     path('feed/like/<int:post_id>/', feed_views.toggle_like, name='toggle_like'),
     path('feed/delete-comment/<int:comment_id>/', feed_views.delete_comment, name='delete_comment'),
     # Vote app
-    path('vote/', vote_views.vote, name='vote'),
+    path('vote/', include('vote.urls')),
     # Account app
     path('account/', account_views.profile_view, name='account'),  # account → profile_view
     path('login/', account_views.login_view, name='login'),

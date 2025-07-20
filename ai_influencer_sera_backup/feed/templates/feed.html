@@ -18,54 +18,10 @@
         background: #fafafa;
     }
 
-    /* 페이지 컨테이너 */
-    .page-container {
-        display: flex;
-        min-height: calc(100vh - 70px);
-    }
-
-    /* 왼쪽 네비게이션 바 */
-    .left-navbar {
-        background-color: hotpink;
-        width: 200px;
-        padding: 20px;
-        color: white;
-        min-height: calc(100vh - 70px);
-    }
-
-    .left-navbar h2 {
-        color: white;
-        margin-bottom: 20px;
-    }
-
-    .left-navbar h2 a {
-        color: white;
-        text-decoration: none;
-    }
-
-    .left-navbar a {
-        color: white;
-        display: block;
-        margin: 10px 0;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 8px 0;
-        transition: all 0.3s ease;
-    }
-
-    .left-navbar a:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        padding-left: 10px;
-        border-radius: 5px;
-    }
-
-    /* 메인 컨테이너 */
+    /* 메인 컨테이너 오버라이드 */
     .main-container {
-        flex: 1;
         max-width: 600px;
         margin: 0 auto;
-        padding: 20px;
-        min-height: calc(100vh - 70px);
     }
 
     /* 피드 포스트 */
@@ -334,20 +290,7 @@
     }
 </style>
 
-<!-- 페이지 컨테이너 -->
-<div class="page-container">
-    <!-- 왼쪽 네비게이션 바 -->
-    <div class="left-navbar">
-        <h2><a href="/">재활 운동 전문 SERA💕</a></h2>
-        <a href="/">홈</a>
-        <a href="/chat/">재활운동 질문하기</a>
-        <a href="/feed/" style="background-color: rgba(255, 255, 255, 0.2); padding-left: 10px; border-radius: 5px;">운동 피드 보기</a>
-        <a href="#" onclick="showComingSoon()">추천 운동 아이템</a>
-        <a href="#" onclick="checkLoginForVote()">다음 컨텐츠 투표</a>
-    </div>
-
-    <!-- 메인 컨테이너 -->
-    <div class="main-container">
+<!-- 피드 컨텐츠 -->
         {% for post in posts %}
         <div class="feed-post">
             <!-- 포스트 헤더 -->
@@ -423,8 +366,6 @@
             </div>
         </div>
         {% endfor %}
-    </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}

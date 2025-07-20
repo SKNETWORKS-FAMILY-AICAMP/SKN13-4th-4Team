@@ -4,39 +4,235 @@
 {% block title %}회원정보변경 - SERA{% endblock %}
 
 {% block content %}
-    <!-- 메시지 표시 -->
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
+<style>
+    /* 메인 컨테이너 오버라이드 */
+    .main-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px 20px;
+    }
 
-    <!-- 페이지 컨테이너 -->
-    <div class="page-container">
-        <!-- 왼쪽 네비게이션 바 -->
-        <div class="left-navbar">
-            <h2><a href="/">재활 운동 전문 SERA💕</a></h2>
-            <a href="/">홈</a>
-            <a href="/chat/">재활운동 질문하기</a>
-            <a href="/feed/">운동 피드 보기</a>
-            <a href="#" onclick="showComingSoon()">추천 운동 아이템</a>
-            <a href="#" onclick="checkLoginForVote()">다음 컨텐츠 투표</a>
-        </div>
+    /* 프로필 헤더 */
+    .profile-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background: linear-gradient(135deg, #fff0f5 0%, #ffe6f0 100%);
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(255, 105, 180, 0.1);
+    }
+
+    .profile-header h1 {
+        color: #ff1493;
+        font-size: 2.2em;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(255, 20, 147, 0.1);
+    }
+
+
+
+    /* 프로필 폼 */
+    .profile-form {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    /* 폼 섹션 */
+    .form-section {
+        margin-bottom: 35px;
+        padding-bottom: 30px;
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .form-section:last-of-type {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .form-section h3 {
+        color: #ff1493;
+        font-size: 1.4em;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* 폼 그룹 */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 8px;
+        font-size: 1em;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        font-size: 1em;
+        font-family: 'Nunito', sans-serif;
+        transition: all 0.3s ease;
+        background-color: #fafafa;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #ff69b4;
+        background-color: white;
+        box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.1);
+        transform: translateY(-1px);
+    }
+
+    .form-group input.readonly {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: #6c757d;
+        font-size: 0.85em;
+    }
+
+    /* 버튼 그룹 */
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1em;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 140px;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #ff69b4, #ff1493);
+        color: white;
+        box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 20px 15px;
+        }
+
+        .profile-form {
+            padding: 25px 20px;
+        }
+
+        .profile-header {
+            padding: 20px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.8em;
+        }
+
+        .btn-group {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+
+    /* 애니메이션 효과 */
+    .form-section {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 입력 필드 검증 스타일 */
+    .form-group input.valid {
+        border-color: #28a745;
+        background-color: #f8fff9;
+    }
+
+    .form-group input.invalid {
+        border-color: #dc3545;
+        background-color: #fff8f8;
+    }
+
+    /* 필수 필드 표시 */
+    .form-group label span {
+        color: #ff1493;
+        font-weight: bold;
+    }
+</style>
+
+    <!-- 회원정보 컨텐츠 -->
 
         <!-- 메인 컨테이너 -->
         <div class="main-container">
             <!-- 프로필 헤더 -->
             <div class="profile-header">
                 <h1>회원정보 관리</h1>
-                <div class="profile-image-container">
-                    {% if profile and profile.profile_image %}
-                        <img src="{{ profile.profile_image.url }}" alt="프로필 이미지" class="profile-image">
-                    {% else %}
-                        <img src="{% static 'images/profile_img.png' %}" alt="기본 프로필 이미지" class="profile-image">
-                    {% endif %}
-                </div>
+
                 <p style="color: #666;">{{ user.username }}님의 정보를 관리하세요</p>
             </div>
 
@@ -102,14 +298,6 @@
                             <label for="address">주소</label>
                             <textarea id="address" name="address" placeholder="주소를 입력해주세요 (선택사항)">{% if profile %}{{ profile.address }}{% endif %}</textarea>
                         </div>
-
-                        <div class="form-group">
-                            <label for="profile_image">프로필 이미지</label>
-                            <input type="file" id="profile_image" name="profile_image" accept="image/*">
-                            <small style="color: #999; font-size: 12px; display: block; margin-top: 5px;">
-                                JPG, PNG 파일만 업로드 가능 (최대 5MB)
-                            </small>
-                        </div>
                     </div>
 
                     <!-- 버튼 그룹 -->
@@ -123,106 +311,217 @@
     </div>
 
     <script>
-        // 메시지 자동 숨김
-        setTimeout(function() {
-            const messages = document.querySelector('.messages');
-            if (messages) {
-                messages.style.display = 'none';
-            }
-        }, 5000);
+        // DOM 로드 완료 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            // 요소들 가져오기
+            const newPassword = document.getElementById('new_password');
+            const newPasswordConfirm = document.getElementById('new_password_confirm');
+            const firstNameInput = document.getElementById('first_name');
+            const emailInput = document.getElementById('email');
+            const form = document.querySelector('form');
 
-        // 로그인 상태 확인 후 투표 페이지 이동
-        function checkLoginForVote() {
-            fetch('/api/check-login/')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.is_authenticated) {
-                        window.location.href = '/vote/';
-                    } else {
-                        alert('로그인을 하세요.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('로그인을 하세요.');
-                });
-        }
 
-        // 파일 업로드 크기 제한
-        const fileInput = document.getElementById('profile_image');
-        fileInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const maxSize = 5 * 1024 * 1024; // 5MB
-                if (file.size > maxSize) {
-                    alert('파일 크기는 5MB 이하여야 합니다.');
-                    this.value = '';
-                }
-            }
-        });
-
-        // 비밀번호 실시간 검사
-        const newPassword = document.getElementById('new_password');
-        const newPasswordConfirm = document.getElementById('new_password_confirm');
-
-        newPasswordConfirm.addEventListener('input', function() {
-            if (newPassword.value !== newPasswordConfirm.value) {
-                newPasswordConfirm.style.borderColor = '#ff6b6b';
-                newPasswordConfirm.style.boxShadow = '0 0 0 3px rgba(255, 107, 107, 0.1)';
-            } else {
-                newPasswordConfirm.style.borderColor = '#4ecdc4';
-                newPasswordConfirm.style.boxShadow = '0 0 0 3px rgba(78, 205, 196, 0.1)';
-            }
-        });
-
-        // 폼 제출 시 확인
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const name = document.getElementById('first_name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const currentPassword = document.getElementById('current_password').value.trim();
-            const newPasswordVal = document.getElementById('new_password').value.trim();
-            const newPasswordConfirmVal = document.getElementById('new_password_confirm').value.trim();
-
-            // 필수 필드 검사
-            if (!name || !email) {
-                e.preventDefault();
-                alert('이름과 이메일은 필수 항목입니다.');
-                return;
-            }
-
-            // 비밀번호 변경 검사
-            if (currentPassword || newPasswordVal || newPasswordConfirmVal) {
-                if (!currentPassword || !newPasswordVal || !newPasswordConfirmVal) {
-                    e.preventDefault();
-                    alert('비밀번호 변경을 위해서는 모든 비밀번호 필드를 입력해주세요.');
-                    return;
-                }
-
-                if (newPasswordVal !== newPasswordConfirmVal) {
-                    e.preventDefault();
-                    alert('새 비밀번호가 일치하지 않습니다.');
-                    return;
-                }
-
-                if (newPasswordVal.length < 6) {
-                    e.preventDefault();
-                    alert('새 비밀번호는 6자 이상이어야 합니다.');
-                    return;
-                }
-
-                if (confirm('비밀번호를 변경하면 다시 로그인해야 합니다. 계속하시겠습니까?')) {
-                    return true;
+            // 실시간 입력 검증 함수
+            function validateField(field, isValid) {
+                if (isValid) {
+                    field.classList.remove('invalid');
+                    field.classList.add('valid');
                 } else {
-                    e.preventDefault();
-                    return;
+                    field.classList.remove('valid');
+                    field.classList.add('invalid');
                 }
             }
 
-            if (confirm('회원정보를 수정하시겠습니까?')) {
-                return true;
-            } else {
-                e.preventDefault();
+            // 이메일 유효성 검사
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             }
+
+            // 이름 실시간 검증
+            firstNameInput.addEventListener('input', function() {
+                const isValid = this.value.trim().length >= 2;
+                validateField(this, isValid);
+            });
+
+            // 이메일 실시간 검증
+            emailInput.addEventListener('input', function() {
+                const isValid = isValidEmail(this.value.trim());
+                validateField(this, isValid);
+            });
+
+            // 새 비밀번호 실시간 검증
+            newPassword.addEventListener('input', function() {
+                const isValid = this.value.length === 0 || this.value.length >= 6;
+                validateField(this, isValid);
+
+                // 비밀번호 확인 필드도 다시 검증
+                if (newPasswordConfirm.value) {
+                    checkPasswordMatch();
+                }
+            });
+
+            // 비밀번호 확인 실시간 검증
+            function checkPasswordMatch() {
+                const isMatch = newPassword.value === newPasswordConfirm.value;
+                validateField(newPasswordConfirm, isMatch);
+
+                if (newPasswordConfirm.value && !isMatch) {
+                    showTooltip(newPasswordConfirm, '비밀번호가 일치하지 않습니다');
+                } else {
+                    hideTooltip(newPasswordConfirm);
+                }
+            }
+
+            newPasswordConfirm.addEventListener('input', checkPasswordMatch);
+
+            // 툴팁 표시 함수
+            function showTooltip(element, message) {
+                hideTooltip(element); // 기존 툴팁 제거
+
+                const tooltip = document.createElement('div');
+                tooltip.className = 'validation-tooltip';
+                tooltip.textContent = message;
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: #dc3545;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    margin-top: 5px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                `;
+
+                element.parentNode.style.position = 'relative';
+                element.parentNode.appendChild(tooltip);
+            }
+
+            // 툴팁 숨김 함수
+            function hideTooltip(element) {
+                const tooltip = element.parentNode.querySelector('.validation-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            }
+
+            // 폼 제출 처리
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = firstNameInput.value.trim();
+                const email = emailInput.value.trim();
+                const currentPassword = document.getElementById('current_password').value.trim();
+                const newPasswordVal = newPassword.value.trim();
+                const newPasswordConfirmVal = newPasswordConfirm.value.trim();
+
+                // 필수 필드 검사
+                if (!name || name.length < 2) {
+                    showAlert('이름은 2자 이상 입력해주세요.', 'error');
+                    firstNameInput.focus();
+                    return;
+                }
+
+                if (!email || !isValidEmail(email)) {
+                    showAlert('올바른 이메일 주소를 입력해주세요.', 'error');
+                    emailInput.focus();
+                    return;
+                }
+
+                // 비밀번호 변경 검사
+                if (currentPassword || newPasswordVal || newPasswordConfirmVal) {
+                    if (!currentPassword || !newPasswordVal || !newPasswordConfirmVal) {
+                        showAlert('비밀번호 변경을 위해서는 모든 비밀번호 필드를 입력해주세요.', 'error');
+                        return;
+                    }
+
+                    if (newPasswordVal !== newPasswordConfirmVal) {
+                        showAlert('새 비밀번호가 일치하지 않습니다.', 'error');
+                        newPasswordConfirm.focus();
+                        return;
+                    }
+
+                    if (newPasswordVal.length < 6) {
+                        showAlert('새 비밀번호는 6자 이상이어야 합니다.', 'error');
+                        newPassword.focus();
+                        return;
+                    }
+
+                    if (!confirm('비밀번호를 변경하면 다시 로그인해야 합니다. 계속하시겠습니까?')) {
+                        return;
+                    }
+                }
+
+                if (confirm('회원정보를 수정하시겠습니까?')) {
+                    // 로딩 표시
+                    const submitBtn = form.querySelector('.btn-primary');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = '수정 중...';
+                    submitBtn.disabled = true;
+
+                    // 실제 폼 제출
+                    form.submit();
+                }
+            });
+
+            // 커스텀 알림 함수
+            function showAlert(message, type = 'info') {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `custom-alert alert-${type}`;
+                alertDiv.textContent = message;
+
+                let backgroundColor;
+                switch(type) {
+                    case 'error':
+                        backgroundColor = '#dc3545';
+                        break;
+                    case 'success':
+                        backgroundColor = '#28a745';
+                        break;
+                    case 'info':
+                        backgroundColor = '#17a2b8';
+                        break;
+                    default:
+                        backgroundColor = '#6c757d';
+                }
+
+                alertDiv.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: ${backgroundColor};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    z-index: 1001;
+                    font-weight: 500;
+                    max-width: 300px;
+                    animation: slideInRight 0.3s ease;
+                `;
+
+                document.body.appendChild(alertDiv);
+
+                setTimeout(() => {
+                    alertDiv.style.animation = 'slideOutRight 0.3s ease';
+                    setTimeout(() => alertDiv.remove(), 300);
+                }, 3000);
+            }
+
+            // CSS 애니메이션 추가
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOutRight {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 {% endblock %}

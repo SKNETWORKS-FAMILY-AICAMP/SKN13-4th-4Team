@@ -68,59 +68,52 @@
             font-weight: 500;
         }
 
-        /* 기존 사이드 네비게이션 */
-        .container {
+        /* 페이지 컨테이너 */
+        .page-container {
             display: flex;
             min-height: calc(100vh - 70px);
         }
 
-        nav {
+        /* 왼쪽 네비게이션 바 */
+        .left-navbar {
             background-color: hotpink;
             width: 200px;
             padding: 20px;
             color: white;
             min-height: calc(100vh - 70px);
         }
-        nav h2 {
+
+        .left-navbar h2 {
             color: white;
+            margin-bottom: 20px;
         }
-        nav a {
+
+        .left-navbar h2 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .left-navbar a {
             color: white;
             display: block;
             margin: 10px 0;
             text-decoration: none;
             font-weight: bold;
-        }
-        main {
-            flex-grow: 1;
-            padding: 40px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #ffe6f0;
-            font-size: 0.9em;
-        }
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            border: 2px solid hotpink;
-            border-radius: 5px;
-            width: 60%;
-        }
-        button {
-            background-color: hotpink;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .comment {
-            margin: 10px 0;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
+            padding: 8px 0;
+            transition: all 0.3s ease;
         }
 
+        .left-navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding-left: 10px;
+            border-radius: 5px;
+        }
+
+        /* 메인 컨테이너 */
+        .main-container {
+            flex: 1;
+            padding: 20px;
+        }
         /* 메시지 스타일 */
         .messages {
             position: fixed;
@@ -171,8 +164,24 @@
         </div>
     {% endif %}
 
-    {% block content %}
-    {% endblock %}
+    <!-- 페이지 컨테이너 -->
+    <div class="page-container">
+        <!-- 왼쪽 네비게이션 바 -->
+        <div class="left-navbar">
+            <h2><a href="/">재활 운동 전문 SERA💕</a></h2>
+            <a href="/">홈</a>
+            <a href="#" onclick="checkLoginForChat()" {% if request.resolver_match.url_name == 'chat' %}style="background-color: rgba(255, 255, 255, 0.2); padding-left: 10px; border-radius: 5px;"{% endif %}>재활운동 질문하기</a>
+            <a href="/feed/" {% if request.resolver_match.url_name == 'feed' %}style="background-color: rgba(255, 255, 255, 0.2); padding-left: 10px; border-radius: 5px;"{% endif %}>운동 피드 보기</a>
+            <a href="#" onclick="showComingSoon()">추천 운동 아이템</a>
+            <a href="#" onclick="checkLoginForVote()" {% if request.resolver_match.url_name == 'vote' %}style="background-color: rgba(255, 255, 255, 0.2); padding-left: 10px; border-radius: 5px;"{% endif %}>다음 컨텐츠 투표</a>
+        </div>
+
+        <!-- 메인 컨테이너 -->
+        <div class="main-container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
 
 <script>
     // 로그인 상태 확인 후 투표 페이지 이동
@@ -182,6 +191,23 @@
             .then(data => {
                 if (data.is_authenticated) {
                     window.location.href = '/vote/';
+                } else {
+                    alert('로그인을 하세요.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그인을 하세요.');
+            });
+    }
+
+    // 로그인 상태 확인 후 채팅 페이지 이동
+    function checkLoginForChat() {
+        fetch('/api/check-login/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_authenticated) {
+                    window.location.href = '/chat/';
                 } else {
                     alert('로그인을 하세요.');
                 }
@@ -205,5 +231,9 @@
         }
     }, 5000);
 </script>
+
+{% block extra_js %}
+{% endblock %}
+
 </body>
 </html>
