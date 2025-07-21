@@ -47,6 +47,7 @@ urlpatterns = [
     path('signup/', account_views.signup_view, name='signup'),
     path('logout/', account_views.logout_view, name='logout'),
     path('api/check-login/', account_views.check_login_status, name='check_login'),
+    path('api/verify-password/', account_views.verify_password, name='verify_password'),
 ]
 
 

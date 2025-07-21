@@ -318,8 +318,8 @@
             const newPasswordConfirm = document.getElementById('new_password_confirm');
             const firstNameInput = document.getElementById('first_name');
             const emailInput = document.getElementById('email');
+            const currentPassword = document.getElementById('current_password');
             const form = document.querySelector('form');
-
 
             // 실시간 입력 검증 함수
             function validateField(field, isValid) {
@@ -374,6 +374,36 @@
             }
 
             newPasswordConfirm.addEventListener('input', checkPasswordMatch);
+
+            // 현재 비밀번호 실시간 검증
+            currentPassword.addEventListener('blur', function() {
+                if (this.value.trim()) {
+                    // AJAX로 현재 비밀번호 검증
+                    fetch('/api/verify-password/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        },
+                        body: JSON.stringify({
+                            'current_password': this.value
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.valid) {
+                            validateField(currentPassword, true);
+                            hideTooltip(currentPassword);
+                        } else {
+                            validateField(currentPassword, false);
+                            showTooltip(currentPassword, '현재 비밀번호가 올바르지 않습니다');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            });
 
             // 툴팁 표시 함수
             function showTooltip(element, message) {
@@ -445,10 +475,6 @@
                     if (newPasswordVal.length < 6) {
                         showAlert('새 비밀번호는 6자 이상이어야 합니다.', 'error');
                         newPassword.focus();
-                        return;
-                    }
-
-                    if (!confirm('비밀번호를 변경하면 다시 로그인해야 합니다. 계속하시겠습니까?')) {
                         return;
                     }
                 }

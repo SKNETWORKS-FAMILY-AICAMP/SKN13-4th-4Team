@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db import IntegrityError
+import json
+from django.contrib.auth import update_session_auth_hash
 
 User = get_user_model()
 
@@ -52,19 +54,22 @@ def profile_view(request):
         # 기본 사용자 정보 업데이트
         user.first_name = first_name
         user.email = email
+
+        # 비밀번호 변경이 있는 경우
+        if current_password and new_password:
+            user.set_password(new_password)
+
+        # 모든 변경사항 저장
         user.save()
 
-        # 프로필 기능은 현재 구현되지 않음
-        # 추후 필요시 Profile 모델을 생성하여 구현
-
-        # 비밀번호가 변경된 경우 다시 로그인 필요
+        # 비밀번호가 변경된 경우 세션 업데이트
         if current_password and new_password:
-            messages.success(request, '회원정보와 비밀번호가 성공적으로 수정되었습니다. 다시 로그인해주세요.')
-            logout(request)
-            return redirect('login')
+            update_session_auth_hash(request, user)
+            messages.success(request, '회원정보와 비밀번호가 성공적으로 수정되었습니다.')
         else:
             messages.success(request, '회원정보가 성공적으로 수정되었습니다.')
-            return redirect('account')
+
+        return redirect('account')
 
     # GET 요청 처리
     return render(request, 'account/profile_change.html', {'user': user, 'profile': None})
@@ -157,4 +162,21 @@ def check_login_status(request):
         'is_authenticated': request.user.is_authenticated,
         'username': request.user.username if request.user.is_authenticated else None
     })
+
+
+@login_required
+def verify_password(request):
+    """현재 비밀번호 검증 API"""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            current_password = data.get('current_password', '')
+            
+            is_valid = request.user.check_password(current_password)
+            
+            return JsonResponse({'valid': is_valid})
+        except Exception as e:
+            return JsonResponse({'valid': False, 'error': str(e)})
+    
+    return JsonResponse({'valid': False})
 
