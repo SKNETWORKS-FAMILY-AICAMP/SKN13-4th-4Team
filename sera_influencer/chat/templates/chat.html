@@ -1,0 +1,481 @@
+{% extends 'main_layout.html' %}
+
+{% block title %}재활운동 질문하기 - SERA{% endblock %}
+
+{% block content %}
+<style>
+
+        /* 채팅 페이지 레이아웃 */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
+            padding: 30px;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid rgba(255, 182, 193, 0.2);
+        }
+
+        .chat-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe6f0 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 105, 180, 0.1);
+        }
+
+        .chat-header h1 {
+            color: #ff1493;
+            font-size: 2.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(255, 20, 147, 0.1);
+        }
+
+        .chat-header p {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* 채팅 메시지 영역 */
+        .chat-messages {
+            flex: 1;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, #fafafa 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            min-height: 400px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 182, 193, 0.1);
+        }
+
+        /* 개별 메시지 스타일 */
+        .message {
+            margin-bottom: 20px;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .user-message {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 5px 20px;
+            max-width: 70%;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+            font-weight: 500;
+        }
+
+        .assistant-message {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .assistant-message .message-content {
+            background: white;
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 20px 20px 20px 5px;
+            max-width: 75%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 182, 193, 0.2);
+            line-height: 1.6;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .assistant-avatar {
+            background: linear-gradient(135deg, #fff0f5, #ffe6f0);
+            color: #ff1493;
+            border: 2px solid #ff69b4;
+        }
+
+        /* 환영 메시지 */
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-text {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .example-questions {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe6f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid rgba(255, 182, 193, 0.2);
+        }
+
+        .example-title {
+            color: #ff1493;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .example-item {
+            background: white;
+            color: #555;
+            padding: 12px 18px;
+            margin: 8px 0;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            font-size: 0.95em;
+            box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: #ff69b4;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .bot-message {
+            background: white;
+            color: #333;
+            border: 2px solid #ffb6c1;
+            margin-right: auto;
+        }
+
+        .bot-message strong {
+            color: #ff1493;
+        }
+
+        /* 입력 폼 */
+        .chat-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #ffb6c1;
+            border-radius: 25px;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        /* 대화 초기화 버튼 */
+        .clear-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .clear-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        /* 에러 메시지 */
+        .error-message {
+            background: linear-gradient(135deg, #ffe6e6, #ffcccc);
+            color: #d63384;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 2px solid #f5c6cb;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .page-container {
+                flex-direction: column;
+            }
+
+            .left-navbar {
+                width: 100%;
+                min-height: auto;
+                padding: 15px;
+            }
+
+            .left-navbar a {
+                display: inline-block;
+                margin: 5px 10px 5px 0;
+                padding: 5px 10px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                font-size: 14px;
+            }
+
+            .chat-container {
+                margin: 10px;
+                padding: 20px;
+                min-height: calc(100vh - 200px);
+            }
+
+            .chat-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .chat-input, .send-btn {
+                width: 100%;
+            }
+
+
+        }
+    </style>
+
+    <!-- 채팅 컨테이너 -->
+    <div class="chat-container">
+        <!-- 헤더 -->
+        <div class="chat-header">
+            <h1>세라와 함께하는 재활운동 상담 💬</h1>
+            <p>궁금한 점이나 불편한 부위를 편하게 말씀해주세요!</p>
+        </div>
+
+        <!-- 에러 메시지 -->
+        {% if error_message %}
+            <div class="error-message">{{ error_message }}</div>
+        {% endif %}
+
+        <!-- 대화 초기화 버튼 -->
+        {% if chat_history %}
+            <form method="post" style="text-align: right;">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="clear">
+                <button type="submit" class="clear-btn">대화 초기화 🗑️</button>
+            </form>
+        {% endif %}
+
+        <!-- 채팅 메시지 영역 -->
+        <div class="chat-messages" id="chat-messages">
+            {% if not chat_history %}
+                <div class="welcome-message">
+                    <div class="welcome-text">
+                        안녕하세요! 재활 운동 전문가 세라입니다 💕<br>
+                        어떤 부위가 불편하신지 편하게 말씀해주세요!
+                    </div>
+                    <div class="example-questions">
+                        <div class="example-title">💡 이런 질문을 해보세요:</div>
+                        <div class="example-item">"허리가 아픈데 어떤 운동을 하면 좋을까요?"</div>
+                    </div>
+                </div>
+            {% else %}
+                {% for chat in chat_history %}
+                    <!-- 사용자 메시지 -->
+                    <div class="message user-message">
+                        <div class="message-content">
+                            {{ chat.user }}
+                        </div>
+                        <div class="message-avatar user-avatar">
+                            👤
+                        </div>
+                    </div>
+
+                    <!-- AI 응답 -->
+                    <div class="message assistant-message">
+                        <div class="message-avatar assistant-avatar">
+                            🌸
+                        </div>
+                        <div class="message-content">
+                            {{ chat.assistant|linebreaks }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- 입력 폼 -->
+        <form method="post" class="chat-form" id="chat-form">
+            {% csrf_token %}
+            <input type="text"
+                   name="user_input"
+                   class="chat-input"
+                   placeholder="세라에게 궁금한 것을 물어보세요... 💭"
+                   required
+                   id="chat-input"
+                   autocomplete="off">
+            <button type="submit" class="send-btn">전송 ✨</button>
+        </form>
+    </div>
+
+<script>
+    // DOM 요소들
+    const input = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+
+    // 채팅 메시지 영역을 맨 아래로 스크롤
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // 페이지 로드 시 스크롤을 맨 아래로
+    window.addEventListener('load', function() {
+        scrollToBottom();
+        input.focus();
+    });
+
+    // 입력 필드 포커스 효과
+    input.addEventListener('focus', () => {
+        input.style.transform = 'scale(1.02)';
+    });
+    input.addEventListener('blur', () => {
+        input.style.transform = 'scale(1)';
+    });
+
+    // 엔터키로 전송
+    input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            chatForm.submit();
+        }
+    });
+
+    // 폼 제출 시 로딩 상태 표시
+    chatForm.addEventListener('submit', function() {
+        const submitBtn = chatForm.querySelector('.send-btn');
+        const originalText = submitBtn.textContent;
+
+        submitBtn.textContent = '전송 중... ⏳';
+        submitBtn.disabled = true;
+
+        // 타임아웃으로 버튼 복원 (서버 응답이 늦을 경우 대비)
+        setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }, 10000);
+    });
+
+    // 타이핑 애니메이션 효과
+    function typeWriter(element, text, speed = 30) {
+        let i = 0;
+        element.innerHTML = '';
+
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+    // 새 메시지 추가 시 애니메이션
+    const messages = document.querySelectorAll('.message');
+    messages.forEach((message, index) => {
+        message.style.animationDelay = `${index * 0.1}s`;
+    });
+
+
+
+    // 로그인 상태 확인 후 투표 페이지 이동
+    function checkLoginForVote() {
+        fetch('/api/check-login/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_authenticated) {
+                    window.location.href = '/vote/';
+                } else {
+                    alert('로그인을 하세요.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그인을 하세요.');
+            });
+    }
+
+    // 준비 중 알림
+    function showComingSoon() {
+        alert('준비 중입니다.');
+    }
+</script>
+{% endblock %}

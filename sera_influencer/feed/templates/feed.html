@@ -1,0 +1,556 @@
+
+{% extends 'main_layout.html' %}
+{% load static %}
+
+{% block title %}운동 피드 - SERA{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<!-- DEBUG: Posts count = {{ posts|length }} -->
+{% if posts %}
+    <!-- DEBUG: Posts found! -->
+{% else %}
+    <!-- DEBUG: No posts found! -->
+{% endif %}
+
+<style>
+    body {
+        background: #fafafa;
+    }
+
+    /* 메인 컨테이너 오버라이드 */
+    .main-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* 피드 포스트 */
+    .feed-post {
+        background: white;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    /* 포스트 헤더 */
+    .post-header {
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #efefef;
+    }
+
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 12px;
+        border: 2px solid #ff69b4;
+    }
+
+    .post-info h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #262626;
+        margin-bottom: 2px;
+    }
+
+    .post-info .post-time {
+        font-size: 12px;
+        color: #8e8e8e;
+    }
+
+    /* 포스트 이미지 */
+    .post-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;  /* 1:1 비율 */
+        object-fit: cover;
+        display: block;
+    }
+
+    /* 포스트 액션 */
+    .post-actions {
+        padding: 15px 20px 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #262626;
+    }
+
+    .action-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .action-btn.liked {
+        color: #ff3040;
+    }
+
+    .likes-count {
+        font-weight: 600;
+        color: #262626;
+        margin-left: auto;
+    }
+
+    /* 포스트 내용 */
+    .post-content {
+        padding: 0 20px 15px;
+    }
+
+    .post-title {
+        font-weight: 600;
+        color: #262626;
+        margin-bottom: 8px;
+        font-size: 16px;
+    }
+
+    .post-text {
+        color: #262626;
+        line-height: 1.5;
+        font-size: 14px;
+        white-space: pre-line;
+    }
+
+    .hashtags {
+        color: #00376b;
+        font-weight: 500;
+    }
+
+    /* 댓글 섹션 */
+    .comments-section {
+        border-top: 1px solid #efefef;
+        padding: 15px 20px;
+    }
+
+    .comments-list {
+        max-height: 200px;
+        overflow-y: auto;
+        margin-bottom: 15px;
+    }
+
+    .comment-item {
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 5px 0;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+    }
+
+    .comment-item:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .comment-author {
+        font-weight: 600;
+        color: #262626;
+        margin-right: 8px;
+    }
+
+    .comment-text {
+        color: #262626;
+    }
+
+    .comment-time {
+        color: #8e8e8e;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    /* 댓글 삭제 버튼 */
+    .comment-delete {
+        background: none;
+        border: none;
+        color: #8e8e8e;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        margin-left: 8px;
+    }
+
+    .comment-delete:hover {
+        background-color: #f5f5f5;
+        color: #ed4956;
+    }
+
+    /* 댓글 입력 */
+    .comment-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #efefef;
+    }
+
+    .comment-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        padding: 8px 0;
+        font-family: inherit;
+    }
+
+    .comment-input::placeholder {
+        color: #8e8e8e;
+    }
+
+    .comment-submit {
+        background: none;
+        border: none;
+        color: #0095f6;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 8px 0;
+        text-decoration: none;
+    }
+
+    .comment-submit:hover {
+        color: #00376b;
+    }
+
+    .comment-submit:disabled {
+        color: #c7c7c7;
+        cursor: not-allowed;
+    }
+
+    /* 댓글 삭제 버튼 */
+    .comment-delete {
+        background: none;
+        border: none;
+        color: #8e8e8e;
+        font-size: 12px;
+        cursor: pointer;
+        margin-left: 10px;
+        padding: 2px 5px;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+    }
+
+    .comment-delete:hover {
+        color: #ff3040;
+        background-color: rgba(255, 48, 64, 0.1);
+    }
+
+    .comment-content {
+        flex: 1;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+        .page-container {
+            flex-direction: column;
+        }
+
+        .left-navbar {
+            width: 100%;
+            min-height: auto;
+            padding: 15px;
+        }
+
+        .left-navbar a {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 5px 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            font-size: 14px;
+        }
+
+        .main-container {
+            padding: 10px;
+        }
+
+        .form-group {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .comment-input, .submit-btn {
+            width: 100%;
+        }
+
+        .feed-header h1 {
+            font-size: 1.8em;
+        }
+    }
+</style>
+
+<!-- 피드 컨텐츠 -->
+        {% for post in posts %}
+        <div class="feed-post">
+            <!-- 포스트 헤더 -->
+            <div class="post-header">
+                <img src="{% static 'images/profile_img_main.png' %}" alt="SERA" class="profile-pic">
+                <div class="post-info">
+                    <h3>sera_pilates</h3>
+                    <div class="post-time">{{ post.created_at|timesince }} 전</div>
+                </div>
+            </div>
+
+            <!-- 포스트 이미지 -->
+            <img src="{% static 'images/' %}{{ post.image }}" alt="{{ post.title }}" class="post-image">
+
+            <!-- 포스트 액션 -->
+            <div class="post-actions">
+                <button class="action-btn like-btn" onclick="toggleLike({{ post.id }})">
+                    <span id="heart-{{ post.id }}">
+                        {% if post.user_liked %}❤️{% else %}🤍{% endif %}
+                    </span>
+                </button>
+                <button class="action-btn">💬</button>
+                <button class="action-btn">📤</button>
+                <div class="likes-count" id="likes-{{ post.id }}">좋아요 {{ post.get_likes_count }}개</div>
+            </div>
+
+            <!-- 포스트 내용 -->
+            <div class="post-content">
+                <div class="post-title">{{ post.title }}</div>
+                <div class="post-text">{{ post.content }}</div>
+            </div>
+
+            <!-- 댓글 섹션 -->
+            <div class="comments-section">
+                <div class="comments-list">
+                    {% for comment in post.comments.all %}
+                    <div class="comment-item" id="comment-{{ comment.id }}" style="display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0;">
+                        <div class="comment-content" style="flex: 1;">
+                            <span class="comment-author">{{ comment.author.username }}</span>
+                            <span class="comment-text">{{ comment.content }}</span>
+                            <div class="comment-time">{{ comment.created_at|timesince }} 전</div>
+                        </div>
+                        {% if user.is_authenticated and comment.author == user %}
+                        <button class="comment-delete" onclick="deleteComment({{ comment.id }})" title="댓글 삭제">
+                            ✕
+                        </button>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 댓글 입력 -->
+                {% if user.is_authenticated %}
+                <form method="post" class="comment-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <input type="text"
+                           name="comment"
+                           class="comment-input"
+                           placeholder="댓글 달기..."
+                           required>
+                    <button type="submit" class="comment-submit">게시</button>
+                </form>
+                {% else %}
+                <div class="comment-form">
+                    <input type="text"
+                           class="comment-input"
+                           placeholder="댓글을 작성하려면 로그인하세요..."
+                           disabled>
+                    <a href="/login/" class="comment-submit">로그인</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 메시지 자동 숨김
+    setTimeout(function() {
+        const messages = document.querySelector('.messages');
+        if (messages) {
+            messages.style.display = 'none';
+        }
+    }, 5000);
+
+    // 좋아요 토글 기능
+    function toggleLike(postId) {
+        fetch(`/feed/like/${postId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const heart = document.getElementById(`heart-${postId}`);
+                const likesCount = document.getElementById(`likes-${postId}`);
+
+                // 하트 아이콘 변경
+                heart.textContent = data.liked ? '❤️' : '🤍';
+
+                // 좋아요 수 업데이트
+                likesCount.textContent = `좋아요 ${data.likes_count}개`;
+
+                // 애니메이션 효과
+                heart.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    heart.style.transform = 'scale(1)';
+                }, 200);
+            } else {
+                alert('좋아요 처리 중 오류가 발생했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('로그인을 하세요.');
+        });
+    }
+
+    // 로그인 상태 확인 후 투표 페이지 이동
+    function checkLoginForVote() {
+        fetch('/api/check-login/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_authenticated) {
+                    window.location.href = '/vote/';
+                } else {
+                    alert('로그인을 하세요.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그인을 하세요.');
+            });
+    }
+
+    // 준비 중 알림
+    function showComingSoon() {
+        alert('준비 중입니다.');
+    }
+
+    // 댓글 삭제 기능
+    function deleteComment(commentId) {
+        console.log('댓글 삭제 시도:', commentId);
+
+        if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+            return;
+        }
+
+        // CSRF 토큰 가져오기
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (!csrfToken) {
+            alert('CSRF 토큰을 찾을 수 없습니다. 페이지를 새로고침해주세요.');
+            return;
+        }
+
+        fetch(`/feed/delete-comment/${commentId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken.value,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            console.log('응답 상태:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('응답 데이터:', data);
+            if (data.success) {
+                // 댓글 요소를 부드럽게 제거
+                const commentElement = document.getElementById(`comment-${commentId}`);
+                if (commentElement) {
+                    commentElement.style.transition = 'all 0.3s ease';
+                    commentElement.style.opacity = '0';
+                    commentElement.style.transform = 'translateX(-20px)';
+
+                    setTimeout(() => {
+                        commentElement.remove();
+                    }, 300);
+                }
+
+                // 성공 메시지 표시
+                console.log('댓글이 삭제되었습니다.');
+            } else {
+                alert(data.error || '댓글 삭제에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('댓글 삭제 중 오류가 발생했습니다.');
+        });
+    }
+
+    // 메시지 표시 함수
+    function showMessage(message, type = 'success') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `alert alert-${type}`;
+        messageDiv.textContent = message;
+        messageDiv.style.position = 'fixed';
+        messageDiv.style.top = '80px';
+        messageDiv.style.right = '20px';
+        messageDiv.style.zIndex = '1001';
+        messageDiv.style.padding = '12px 20px';
+        messageDiv.style.borderRadius = '5px';
+        messageDiv.style.fontWeight = '500';
+
+        if (type === 'success') {
+            messageDiv.style.backgroundColor = '#d4edda';
+            messageDiv.style.color = '#155724';
+            messageDiv.style.border = '1px solid #c3e6cb';
+        } else {
+            messageDiv.style.backgroundColor = '#f8d7da';
+            messageDiv.style.color = '#721c24';
+            messageDiv.style.border = '1px solid #f5c6cb';
+        }
+
+        document.body.appendChild(messageDiv);
+
+        setTimeout(() => {
+            messageDiv.style.transition = 'opacity 0.3s ease';
+            messageDiv.style.opacity = '0';
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.parentNode.removeChild(messageDiv);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    // 댓글 입력 시 버튼 활성화/비활성화
+    document.addEventListener('DOMContentLoaded', function() {
+        const commentInputs = document.querySelectorAll('.comment-input');
+        commentInputs.forEach(input => {
+            const submitBtn = input.nextElementSibling;
+            if (submitBtn && submitBtn.classList.contains('comment-submit')) {
+                input.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        submitBtn.disabled = false;
+                        submitBtn.style.color = '#0095f6';
+                    } else {
+                        submitBtn.disabled = true;
+                        submitBtn.style.color = '#c7c7c7';
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+
+
+

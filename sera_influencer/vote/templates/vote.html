@@ -1,0 +1,250 @@
+{% extends 'main_layout.html' %}
+{% load static %}
+
+{% block title %}다음 컨텐츠 투표 - SERA{% endblock %}
+
+{% block content %}
+<style>
+        /* 메인 컨테이너 오버라이드 */
+        .main-container {
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .vote-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .vote-header h1 {
+            color: #ff1493;
+            font-size: 2.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .vote-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .vote-question {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .vote-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .vote-option {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid #ffb6c1;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .vote-option:hover {
+            border-color: #ff69b4;
+            background-color: #fff0f5;
+            transform: translateY(-2px);
+        }
+
+        .vote-option input[type="radio"] {
+            margin-right: 20px;
+            transform: scale(1.3);
+            accent-color: #ff69b4;
+        }
+
+        .option-content h3 {
+            color: #ff1493;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .option-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .vote-option input[type="radio"]:checked + .option-content h3 {
+            color: #ff1493;
+        }
+
+        .vote-option input[type="radio"]:checked + .option-content {
+            color: #ff1493;
+        }
+
+        .vote-btn {
+            margin-top: 25px;
+            padding: 18px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .vote-info {
+            background: #fff0f5;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .vote-info p {
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* 메시지 스타일 */
+        .messages {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1001;
+        }
+        .alert {
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .page-container {
+                flex-direction: column;
+            }
+
+            .left-navbar {
+                width: 100%;
+                min-height: auto;
+                padding: 15px;
+            }
+
+            .left-navbar a {
+                display: inline-block;
+                margin: 5px 10px 5px 0;
+                padding: 5px 10px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                font-size: 14px;
+            }
+
+            .main-container {
+                padding: 10px;
+            }
+
+            .vote-container {
+                padding: 20px;
+            }
+
+            .vote-option {
+                padding: 15px;
+            }
+
+            .vote-header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+
+<!-- 투표 컨텐츠 -->
+        <!-- 헤더 -->
+        <div class="vote-header">
+            <h1>다음 컨텐츠 투표 🗳️</h1>
+        </div>
+
+        <!-- 투표 컨테이너 -->
+        <div class="vote-container">
+            <div class="vote-question">다음에는 어떤 운동 컨텐츠를 보고 싶으신가요?</div>
+
+            <form method="post" class="vote-form">
+                {% csrf_token %}
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="pilates">
+                    <div class="option-content">
+                        <h3>🧘‍♀️ 필라테스 기초 동작</h3>
+                        <p>초보자를 위한 기본 필라테스 동작과 자세 교정</p>
+                    </div>
+                </label>
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="rehabilitation">
+                    <div class="option-content">
+                        <h3>🏥 재활 운동 루틴</h3>
+                        <p>부위별 재활 운동과 통증 완화 방법</p>
+                    </div>
+                </label>
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="stretching">
+                    <div class="option-content">
+                        <h3>🤸‍♀️ 스트레칭 가이드</h3>
+                        <p>일상 속 간단한 스트레칭과 유연성 향상</p>
+                    </div>
+                </label>
+
+                <label class="vote-option">
+                    <input type="radio" name="content_type" value="nutrition">
+                    <div class="option-content">
+                        <h3>🥗 운동 영양학</h3>
+                        <p>운동 전후 영양 관리와 건강한 식단</p>
+                    </div>
+                </label>
+
+                <button type="submit" class="vote-btn">투표하기 ✨</button>
+            </form>
+        </div>
+
+        <!-- 투표 안내 -->
+        <div class="vote-info">
+            <p>
+                투표 결과는 다음 주 컨텐츠 제작에 반영됩니다!<br>
+                여러분의 소중한 의견을 기다리고 있어요 💕
+            </p>
+        </div>
+
+{% endblock %}
