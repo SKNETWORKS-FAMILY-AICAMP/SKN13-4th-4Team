@@ -50,11 +50,17 @@ def chat(request):
 
                     # LangChain Agent 사용
                     print("🤖 Agent 생성 중...")
+                    # agent = create_agent()
+                    # print("🤖 Agent 생성 완료!")
+                    # print("🤖 Agent 실행 중...")
+                    # response = agent.invoke(user_input)
+                    # print(f"🤖 Agent 응답: {response}...")
                     agent = create_agent()
-                    print("🤖 Agent 생성 완료!")
-                    print("🤖 Agent 실행 중...")
-                    response = agent.run(user_input)
-                    print(f"🤖 Agent 응답: {response[:100]}...")
+                    result = agent.invoke(user_input)
+                    response = result.get("output", "AI 응답이 없습니다.")
+
+                    # 슬라이싱 안전하게 처리
+                    print(f":robot: Agent 응답: {str(response)[:100]}...")
 
                     # 파일에도 응답 기록
                     with open("debug.log", "a", encoding="utf-8") as f:
@@ -92,3 +98,20 @@ def chat(request):
         'error_message': error_message
     }
     return render(request, 'chat.html', context)
+
+
+try:
+    agent = create_agent()
+    result = agent.invoke(user_input)
+    response = result.get("output", "AI 응답이 없습니다.")
+
+    # 슬라이싱 안전하게 처리
+    print(f":robot: Agent 응답: {str(response)[:100]}...")
+
+    # 로그에도 기록
+    with open("debug.log", "a", encoding="utf-8") as f:
+        f.write(f"[{request.user}] 응답: {str(response)[:200]}...\n\n")
+
+    # DB 저장 등 처리...
+except Exception as e:
+    error_message = f"AI 응답 생성 중 오류가 발생했습니다: {str(e)}"
