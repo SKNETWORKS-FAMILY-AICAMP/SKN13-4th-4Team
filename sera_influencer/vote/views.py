@@ -19,15 +19,17 @@ def vote(request):
                     }
                 )
                 
-                # 중복 투표 방지 및 투표 생성
-                vote, vote_created = Vote.objects.get_or_create(
-                    user=request.user, 
-                    option=option
-                )
+                # 기존 투표 확인 (모든 선택지에 대해)
+                existing_vote = Vote.objects.filter(user=request.user).first()
                 
-                if not vote_created:
-                    messages.warning(request, '이미 해당 항목에 투표하셨습니다!')
+                if existing_vote:
+                    # 기존 투표가 있으면 중복 투표 방지
+                    messages.error(request, '중복 투표는 불가합니다.')
+                    return redirect('vote')
                 else:
+                    # 새로운 투표 생성
+                    Vote.objects.create(user=request.user, option=option)
+                    
                     # 투표 수 증가
                     option.vote_count = F('vote_count') + 1
                     option.save(update_fields=['vote_count'])
