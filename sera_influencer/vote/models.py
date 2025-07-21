@@ -35,7 +35,7 @@ class Vote(models.Model):
     class Meta:
         verbose_name = '투표'
         verbose_name_plural = '투표들'
-        unique_together = ('user', 'option')  # 한 사용자가 같은 옵션에 중복 투표 방지
+        unique_together = ('user',)  # 한 사용자당 하나의 투표만 허용
         ordering = ['-created_at']
 
     def __str__(self):
