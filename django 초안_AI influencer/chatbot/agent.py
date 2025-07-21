@@ -10,6 +10,8 @@ from langchain.schema import SystemMessage
 from chatbot.q_a_tool import q_a_tool
 from chatbot.plan_workout_tool import plan_workout_tool
 
+load_dotenv()
+
 def create_agent():
     """
     RAG 기반 도구(plan_workout_tool)를 사용할 수 있는 AI 인플루언서 에이전트를 생성합니다.
@@ -51,7 +53,7 @@ def create_agent():
 """
 
     
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)  # 사용할 LLM 설정
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.7)  # 사용할 LLM 설정
 
     all_tools = [plan_workout_tool] + [q_a_tool]      # 사용할 툴 목록 (운동 루틴 추천, Q&A)
 
