@@ -167,7 +167,38 @@
         const passwordConfirm = document.getElementById('password_confirm');
         const username = document.getElementById('username');
         const email = document.getElementById('email');
+        const firstName = document.getElementById('first_name');
+        
+        // 이름 길이 실시간 검사 (3글자 이상)
+        firstName.addEventListener('input', function() {
+            if (firstName.value.length >= 3) {
+                // 성공 스타일
+                firstName.style.borderColor = '#4ecdc4';
+                firstName.style.boxShadow = '0 0 0 3px rgba(78, 205, 196, 0.1)';
+            } else if (firstName.value.length > 0) {
+                // 실패 스타일 (3글자 미만)
+                firstName.style.borderColor = '#ff6b6b';
+                firstName.style.boxShadow = '0 0 0 3px rgba(255, 107, 107, 0.1)';
+            } else {
+                // 기본 스타일로 복원 (입력값이 없을 때)
+                firstName.style.borderColor = '#ffb6c1';
+                firstName.style.boxShadow = 'none';
+                }
+        });
 
+        // 이메일 공란 여부 실시간 검사
+        email.addEventListener('input', function() {
+            if (email.value.trim() !== '') {
+                // 성공 스타일 (내용이 있을 때)
+                email.style.borderColor = '#4ecdc4';
+                email.style.boxShadow = '0 0 0 3px rgba(78, 205, 196, 0.1)';
+                } else {
+                // 기본 스타일로 복원 (입력값이 없을 때)
+                email.style.borderColor = '#ffb6c1';
+                email.style.boxShadow = 'none';
+            }
+        });
+        
         // 비밀번호 확인 실시간 검사
         passwordConfirm.addEventListener('input', function() {
             if (password.value !== passwordConfirm.value) {

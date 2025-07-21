@@ -55,6 +55,9 @@ def profile_view(request):
         user.first_name = first_name
         user.email = email
 
+        # 추가 사용자 정보 업데이트
+        user.address = address
+
         # 비밀번호 변경이 있는 경우
         if current_password and new_password:
             user.set_password(new_password)
