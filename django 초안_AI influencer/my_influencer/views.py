@@ -24,6 +24,8 @@ def chat(request):
     response = None
     error_message = None
 
+    agent = create_agent()
+
     if request.method == 'POST':
         user_input = request.POST.get('user_input', '').strip()
 
@@ -31,19 +33,11 @@ def chat(request):
             error_message = "질문을 입력해주세요."
         elif not client:
             error_message = "AI 서비스가 현재 이용할 수 없습니다."
+        elif user_input.lower() in ["exit", "quit"]:
+            response = "세션을 종료합니다. 다음에 또 이용해주세요!"  
         else:
             try:
-                # AI 응답 생성
-                completion = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "당신은 전문적인 필라테스 강사이자 재활 운동 전문가입니다. 친근하고 도움이 되는 조언을 제공해주세요."},
-                        {"role": "user", "content": user_input}
-                    ],
-                    max_tokens=500,
-                    temperature=0.7
-                )
-                response = completion.choices[0].message.content
+                response = agent.run(user_input)
             except Exception as e:
                 error_message = f"AI 응답 생성 중 오류가 발생했습니다: {str(e)}"
 
