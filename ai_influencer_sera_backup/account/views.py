@@ -112,6 +112,11 @@ def signup_view(request):
             messages.error(request, '필수 항목을 모두 입력해주세요.')
             return render(request, 'account/signup.html')
 
+        # 아이디 길이 검사 추가
+        if len(username) < 4 or len(username) > 20:
+            messages.error(request, '아이디는 4-20자로 입력해주세요.')
+            return render(request, 'account/signup.html')
+
         if password != password_confirm:
             messages.error(request, '비밀번호가 일치하지 않습니다.')
             return render(request, 'account/signup.html')
