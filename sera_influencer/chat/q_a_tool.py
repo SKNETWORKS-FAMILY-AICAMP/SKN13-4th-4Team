@@ -7,6 +7,7 @@ def get_q_a_tool():
     # RAG 세팅
     vectordb = Chroma(                                              # 저장된 Chroma 벡터 DB 불러오기
         persist_directory="./vector_db",                            # 벡터 DB 경로
+        collection_name="rehabilitation_articles_openai",
         embedding_function=OpenAIEmbeddings(model="text-embedding-3-large")  # 동일한 임베딩 모델로 설정
     )
 
