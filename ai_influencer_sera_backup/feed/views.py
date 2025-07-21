@@ -9,7 +9,14 @@ from feed.models import FeedPost, FeedComment, FeedLike
 
 
 def feed(request):
-    """인스타그램 스타일 피드 페이지"""
+    """
+    인스타그램 스타일 피드 페이지
+    사진이 들어가고, 좋아요 버튼, 댓글 기능이 있습니다.
+    로그인한 사용자만 댓글을 달 수 있습니다.
+    로그인한 사용자는 자신이 단 댓글을 삭제할 수 있습니다. 
+    
+    댓글은 DB에 저장됩니다. 
+    """
     # 댓글 추가 처리
     if request.method == 'POST' and request.user.is_authenticated:
         post_id = request.POST.get('post_id')
@@ -71,11 +78,6 @@ def feed(request):
 
     print(f"DEBUG: Rendering template with {posts.count()} posts")
     return render(request, 'feed.html', {'posts': posts})
-
-
-def feed_view(request):
-    """피드 뷰"""
-    return feed(request)
 
 
 @login_required
