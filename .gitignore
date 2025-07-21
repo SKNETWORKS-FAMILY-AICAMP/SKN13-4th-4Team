@@ -103,3 +103,6 @@ Desktop.ini
 docs/_build/
 *.drawio.bkp
 *.pdf~
+
+# vector_db
+sera_influencer/vector_db/
