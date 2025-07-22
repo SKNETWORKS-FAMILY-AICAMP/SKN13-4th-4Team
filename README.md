@@ -170,8 +170,7 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.1 Home - 홈
 <br>
-<img src="image_readme/sera_logout_home.png" width="600">
-<br>
+<img src="image_readme/sera_logout_home.png" width="800">
 - 로그인 버튼 : 로그인 창으로 이동한다.<br>
 - 재활운동 질문하기 버튼 : AI 챗봇 화면으로 이동한다. 로그인한 사람만 이용할 수 있다.("로그인을 하세요")<br>
 - 운동피드 보기 버튼 : 인스타그램 형식의 SNS 게시물 화면으로 이동한다. 로그인을 안해도 피드 창으로 이동 가능하다. <br>
@@ -181,8 +180,7 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.2 Login - 로그인
 <br>
-<img src="image_readme/sera_login.png" width="600" />
-<br>
+<img src="image_readme/sera_login.png" width="800" />
 - 아이디 입력란 : 회원가입을 완료한 아이디를 입력한다. <br>
 - 비밀번호 입력란 : 회원가입을 완료한 아이디의 비밀번호를 입력한다.<br>
 - 로그인 버튼 : 아이디와 비밀번호를 입력하고 버튼을 누르면 로그인이 된다.<br>
@@ -193,8 +191,7 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.3 Sign up - 회원가입
 <br>
-<img src="image_readme/sera_signup.png" width="600" />
-<br>  
+<img src="image_readme/sera_signup.png" width="800" />
 - 아이디 입력란 : 회원가입을 할 아이디를 입력한다. ("영문, 숫자 조합 4-20자")<br>
 - 비밀번호 입력란 : 회원가입을 할 아이디의 비밀번호를 입력한다. ("6자 이상 입력해주세요.")<br>
 - 비밀번호 확인 검사란 : 비밀번호를 재입력해 위의 비밀번호와 같은지 검사한다. <br>
@@ -207,8 +204,7 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.4 💬 Chat - 채팅 시스템
 <br>
-<img src="image_readme/sera_login_chat.png" width="600" />
-<br>
+<img src="image_readme/sera_login_chat.png" width="800" />
 - 챗봇 질문 입력 칸 : 궁금한 점을 입력 칸에 입력한다.<br>
 - 챗봇 질문 입력 버튼 : 질문을 입력하고 버튼을 누른다. 엔터로도 활성화 된다.<br>
 - 질문과 답변은 세션별로 DB에 저장된다. 
@@ -216,8 +212,7 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.5 📱Feed - SNS 구현
 <br>
-<img src="image_readme/sera_login_feed.png" width="600" />
-<br>
+<img src="image_readme/sera_login_feed.png" width="800" />
 - 좋아요 버튼 : 하트를 누르면 빨간 하트로 변한다. 우측의 좋아요가 +1 된다.<br>
 - 댓글 : 댓글을 달면 화면에 등록된다, 작성자만이 삭제가 가능하다. <br>
 - 좋아요와 댓글은 DB에 저장된다.
@@ -225,22 +220,20 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.6 📊 Vote / Vote result - 투표 시스템
 <br>
-<img src="image_readme/sera_login_vote.png" width="600" />
-<br>
+<img src="image_readme/sera_login_vote.png" width="800" />
 - 투표 선택지 버튼 : 투표 선택지 중 하나를 클릭하면 왼쪽 동그라미 색깔이 변한다. <br>
 - 투표하기 버튼 : 선지를 선택하고 투표하기 버튼을 누른다. 이미 선택한 선지는 선택할 수 없다. <br>
 - 투표를 하면 투표자 수, 선지가 DB에 저장된다. 
 
 <br>
-<img src="image_readme/sera_login_vote_result.png" width="600" />
+<img src="image_readme/sera_login_vote_result.png" width="800" />
 - 투표 결과 창 <br>
 - DB에 저장된 투표 결과를 보여준다. 
 
 ### 4.7 Profile change - 회원정보 변경 
 <br>
-<img src="image_readme/sera_login_profile_change1.png" width="600" />
-<img src="image_readme/sera_login_profile_change2.png" width="600" />
-<br>
+<img src="image_readme/sera_login_profile_change1.png" width="800" />
+<img src="image_readme/sera_login_profile_change2.png" width="800" />
 - 기본정보-아이디 : 가입한 아이디를 확인할 수 있다. <br>
 - 기본정보-이름 : 가입 시 입력한 이름을 확인할 수 있다. <br>
 - 기본적보-이메일 : 가입 시 입력한 이메일을 확인할 수 있다. <br>
