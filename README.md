@@ -1,10 +1,10 @@
 ﻿# SKN13-3rd-3Team
 
 ## 1. Introduce Team
-### 💡 프로젝트명: AI 인플루언서, 필라테스 강사 SERA(Smart Exercise & Rehabilitation AI)
+### 1.1 프로젝트명: AI 인플루언서, 필라테스 강사 SERA(Smart Exercise & Rehabilitation AI)
  – 재활&운동 전문가 AI SERA
 <br/><br/>
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 인플루언서후원자들
+#### 인플루언서후원자들
 <table align=center>
   <tbody>
    <tr>
@@ -16,19 +16,19 @@
     </tr>
     <tr>
       <td align="center">
-        <img src="image_readme/profile_jaehoi.png" width="200px;"/>
+        <img src="image_readme/profile_jaehoi.png" width="190px;"/>
       </td>
       <td align="center">
-        <img src="image_readme/profile_jiho.png" width="200px;"/>
+        <img src="image_readme/profile_jiho.png" width="190px;"/>
       </td>
       <td align="center">
-        <img src="image_readme/profile_hyuna.png" width="200px;"/>
+        <img src="image_readme/profile_hyuna.png" width="190px;"/>
       </td>
       <td align="center">
-        <img src="image_readme/profile-jaebeom.png" width="200px;"/>
+        <img src="image_readme/profile-jaebeom.png" width="190px;"/>
       </td>
       <td align="center">
-        <img src="image_readme/profile_jinseul.png" width="200px;"/>
+        <img src="image_readme/profile_jinseul.png" width="190px;"/>
       </td>
     </tr>
     <tr>
@@ -62,14 +62,14 @@
 <br>
 <br/><br/>
 
-### R&R
+### 1.2 R&R
 
 
 <img src="image_readme/rnr.png" width="600" />
 
-
-
-## 2.1 Project Overview - 프로젝트 소개
+--------------------------------------------
+# 2. Project Overview 
+## 2.1 프로젝트 소개
 
 🧐 **"기억하고, 반응하고, 시간을 느끼는 - 사람같은 챗봇의 탄생"** <br>
 
@@ -139,105 +139,138 @@
 ## 3. System Architecture
 <br>
 <p align="center">
-  <img src="image_readme/system_architecture.png" width="500"/>
+  <img src="image_readme/system_architecture.png" width="600"/>
 </p>
 <br>
---------------------------------------------
-
-## 4. 주요 기능
-### 4.1 💬 채팅 시스템
-<br>
-
-### 4.2 📊 투표 시스템
-<br>
-
-### 4.3 🔐 사용자 인증
-<br>
-
-### 4.4 ⚙️ 세션 관리
-
-<br><br>
 
 --------------------------------------------
-## 5. 구현 화면 
-### 5.1 Home
+## 4. 구현 화면 
+### screen flow
 <br>
-  <img src="image_readme/login_home.png" width="500" />
-<br>
-
-### 5.2 Login
-<br>
-  <img src="image_readme/login.png" width="500" />
+<img src="image_readme/screen_flow.png" width="800">
 <br>
 
-### 5.3 Sign up
+### 4.1 Home - 홈
 <br>
-  <img src="image_readme/signup.png" width="500" />
+<img src="image_readme/sera_logout_home.png" width="600">
+<br>
+- 로그인 버튼 : 로그인 창으로 이동한다.<br>
+- 재활운동 질문하기 버튼 : AI 챗봇 화면으로 이동한다. 로그인한 사람만 이용할 수 있다.("로그인을 하세요")<br>
+- 운동피드 보기 버튼 : 인스타그램 형식의 SNS 게시물 화면으로 이동한다. 로그인을 안해도 피드 창으로 이동 가능하다. <br>
+- 추천 운동 아이템 버튼 : '준비중 입니다.' 창이 뜬다.<br>
+- 다음 컨텐츠 투표 버튼 : 회원들에게 다음 컨텐츠를 투표하게 하는 화면으로 이동한다. 로그인 한 사람만 이용할 수 있다.("로그인을 하세요")<br>
+
+
+### 4.2 Login - 로그인
+<br>
+<img src="image_readme/sera_login.png" width="600" />
+<br>
+- 아이디 입력란 : 회원가입을 완료한 아이디를 입력한다. <br>
+- 비밀번호 입력란 : 회원가입을 완료한 아이디의 비밀번호를 입력한다.<br>
+- 로그인 버튼 : 아이디와 비밀번호를 입력하고 버튼을 누르면 로그인이 된다.<br>
+- 회원가입 버튼 : 회원가입 창으로 이동한다. <br>
+- 홈으로 돌아가기 버튼 : 홈으로 돌아간다. <br>
+
+
+### 4.3 Sign up - 회원가입
+<br>
+<img src="image_readme/sera_signup.png" width="600" />
 <br>  
+- 아이디 입력란 : 회원가입을 할 아이디를 입력한다. ("영문, 숫자 조합 4-20자")<br>
+- 비밀번호 입력란 : 회원가입을 할 아이디의 비밀번호를 입력한다. ("6자 이상 입력해주세요.")<br>
+- 비밀번호 확인 검사란 : 비밀번호를 재입력해 위의 비밀번호와 같은지 검사한다. <br>
+- 이름 입력란 : 이름을 입력한다. <br>
+- 이메일 입력란 : 이메일을 입력한다. (이메일 주소에 '@'를 포함해야한다.)<br>
+- 주소 입력란 : 선택사항이라 입력하지 않아도 회원가입이 된다.<br>
+- 회원가입 버튼 : 모든 입력란이 오류가 없다면 회원가입을 완료한다. <br>
 
-### 5.4 Chat
-<br>
-  <img src="image_readme/login_chat.png" width="500" />
-<br>
 
-### 5.5 Feed
+### 4.4 💬 Chat - 채팅 시스템
 <br>
-  <img src="image_readme/login_feed.png" width="500" />
+<img src="image_readme/sera_login_chat.png" width="600" />
 <br>
+- 챗봇 질문 입력 칸 : 궁금한 점을 입력 칸에 입력한다.<br>
+- 챗봇 질문 입력 버튼 : 질문을 입력하고 버튼을 누른다. 엔터로도 활성화 된다.<br>
 
-### 5.6 Vote / Vote result
-<br>
-  <img src="image_readme/login_vote.png" width="500" />
-  <img src="image_readme/login_vote_result.png" width="500" />
-<br>
 
-### 5.7 Profile change
+### 4.5 📱Feed - SNS 구현
 <br>
-  <img src="image_readme/login_profile_change1.png" width="500" />
-  <img src="image_readme/login_profile_change2.png" width="500" />
+<img src="image_readme/sera_login_feed.png" width="600" />
+<br>
+- 좋아요 버튼 : 하트를 누르면 빨간 하트로 변한다. 우측의 좋아요가 +1 된다.<br>
+- 댓글 : 댓글을 달면 화면에 등록된다, 작성자만이 삭제가 가능하다. <br>
+
+### 4.6 📊 Vote / Vote result - 투표 시스템
+<br>
+<img src="image_readme/sera_login_vote.png" width="600" />
+<br>
+- 투표 선택지 버튼 : 투표 선택지 중 하나를 클릭하면 왼쪽 동그라미 색깔이 변한다. <br>
+- 투표하기 버튼 : 선지를 선택하고 투표하기 버튼을 누른다. 이미 선택한 선지는 선택할 수 없다. <br>
+<br>
+<img src="image_readme/sera_login_vote_result.png" width="600" />
+<br>
+- 투표 결과 창 <br>
+
+### 4.7 Profile change - 회원정보 변경 
+<br>
+<img src="image_readme/sera_login_profile_change1.png" width="600" />
+<img src="image_readme/sera_login_profile_change2.png" width="600" />
+<br>
+- 기본정보-아이디 : 가입한 아이디를 확인할 수 있다. <br>
+- 기본정보-이름 : 가입 시 입력한 이름을 확인할 수 있다. <br>
+- 기본적보-이메일 : 가입 시 입력한 이메일을 확인할 수 있다. <br>
+- 비밀번호 변경-현재 비밀번호 입력란 : 현재 비밀번호를 입력하는 칸이다. <br>
+- 비밀번호 변경-새 비밀번호 입력란 : 새로운 비밀번호를 입력하는 칸이다.<br>
+- 비밀번호 변경-새 비밀번호 확인 검사란 : 비밀번호를 재입력해 위의 비밀번호와 같은지 검사한다. <br>
+- 회원정보 변경 버튼 : 회원정보 입력후 변경 버튼을 누르면 회원정보가 변경된다.<br>
+- 회원정보 변경 취소 버튼 : 회원정보 변경을 취소한다. <br>
+
 <br><br>
 
 --------------------------------------------
-## 6. DB 구축
+## 5. DB 구축
 
-* 💽 DB 선택: Chroma
+<img src="image_readme/ERD.png" width="500"/>
 
-
-  <img src="image_readme/ERD.png" width="500" />
-
+💽 DB 선택: Chroma<br>
+- 논문과 전문가 기고문을 각각 파싱<br>
+- 문서를 일정한 청크로 분할<br>
+- OpenAI의 text-embedding-3-large 모델을 통해 임베딩<br>
+- Chroma를 통해 데이터 벡터화<br>
+- 논문 Chroma DB와 전문가 기고문 Chroma DB, 2개의 Chroma DB를 하나의 Chroma DB로 병합<br>
 
 <br><br>
 
 --------------------------------------------
-## 7. AWS 배포
+## 6. AWS 배포
 EC2, Gunicorn
 <br><br>
 
 --------------------------------------------
-### 8. 최종프로젝트에 구현할 것
-AI가 먼저 말을 걸고, 사용자의 과거 대화를 기억하며,
-**“오랜만이에요, 지난번 통증은 좀 나아지셨어요?”**와 같은 시간기반/기억기반 반응을 실현할 예정입니다.
-또한 **“더 나은 트레이너가 되고 싶다”**, “앞으로 이런 피드백을 더 잘 반영하고 싶다”는 식의 **의지 표현**을 통해,
-AI가 **목표를 가진 존재처럼 반응하는 인간형 인플루언서**의 모습을 구현하고자 합니다.
+## 7. 최종프로젝트에 구현할 것
+AI가 먼저 말을 걸고, 사용자의 과거 대화를 기억하며,<br>
+**“오랜만이에요, 지난번 통증은 좀 나아지셨어요?”**와 같은 시간기반/기억기반 반응을 실현할 예정입니다.<br>
+또한 **“더 나은 트레이너가 되고 싶다”**, “앞으로 이런 피드백을 더 잘 반영하고 싶다”는 식의 **의지 표현**을 통해,<br>
+AI가 **목표를 가진 존재처럼 반응하는 인간형 인플루언서**의 모습을 구현하고자 합니다.<br>
 <br>
 <br>
-여기에 더해, 사용자의 운동 목적이나 증상에 맞춰
-**운동 방법과 재활 동작을 이미지, 영상, 음성으로 안내하고**,
-스트레칭 도구, 자세 보조 용품, 생활 습관 팁 등도 함께 제안함으로써
-**실질적인 운동 조력자 역할까지 수행하는 멀티모달 AI 인플루언서**를 목표로 합니다.
+여기에 더해, 사용자의 운동 목적이나 증상에 맞춰<br>
+**운동 방법과 재활 동작을 이미지, 영상, 음성으로 안내하고**,<br>
+스트레칭 도구, 자세 보조 용품, 생활 습관 팁 등도 함께 제안함으로써<br>
+**실질적인 운동 조력자 역할까지 수행하는 멀티모달 AI 인플루언서**를 목표로 합니다.<br>
 
 <br><br>
 
 --------------------------------------------
-### 9. 한 줄 회고 💭
+## 8. 한 줄 회고 💭
 
 | 이름 | 한 줄 회고 |
 |:------:|-------------------|
-| 재회 | |
-| 지호 | |
-| 현아 | |
-| 재범 | |
-| 진슬 | |
+| 재회 |회고|
+| 지호 | 써|
+| 현아 | 주|
+| 재범 | 세요|
+| 진슬 | 넘 재밌다.. 최종 기대돼요🤩|
 
 
 
