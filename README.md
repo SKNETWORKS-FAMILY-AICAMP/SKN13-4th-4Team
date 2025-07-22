@@ -62,10 +62,19 @@
 <br>
 <br/><br/>
 
-### 1.2 R&R
-
+### 1.2 작업 구성
 
 <img src="image_readme/rnr.png" width="600" />
+
+### 1.3 R&R
+
+| 직무 | 담당자 |
+|:------:|-------------------|
+| Documentation | 구재회 |
+| Enterprise Support | 모지호 |
+| Back(Django), Front | 장진슬 |
+| Back(LM) | 박현아 |
+| DB & AWS | 이재범 | 
 
 --------------------------------------------
 # 2. Project Overview 
@@ -101,7 +110,7 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 자연스럽고 상황에 맞는 반응을 제공하는 능력
 
 
-나아가, 챗봇이 ‘자신의 목표’를 표현하고 행동하는 의지까지 지니게 한다면, 이는 단순한 도구를 넘어 진짜 인플루언서로 작동할 수 있다고 판단했습니다.<br>
+나아가, 챗봇이 ‘자신의 목표’를 표현하고 행동하는 의지까지 지니게 한다면, 이는 단순한 도구를 넘어 진짜 인플루언서로 작동할 수 있다고 판단.<br>
 
 
 
@@ -258,7 +267,14 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 <img src="image_readme/ERD.png" width="500"/>
 
-💽 DB 선택: Chroma<br>
+💽 DB: PostgreSQL<br>
+- 엄격한 ACID(Atomicity, Consistency, Isolation, Durability)<br>
+- 다중 사용자 환경 친화: Multiversion Concurrency Control<br>
+- Query Planner: 복잡한 JOIN, subquery 처리 우수<br>
+- Django와의 호환성: `JSONField`, `ArrayField`, ...<br>
+- 무료 오픈소스 Top-tier DB<br>
+
+💽 Vector DB: Chroma<br>
 - 논문과 전문가 기고문을 각각 파싱<br>
 - 문서를 일정한 청크로 분할<br>
 - OpenAI의 text-embedding-3-large 모델을 통해 임베딩<br>
@@ -268,12 +284,171 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 <br><br>
 
 --------------------------------------------
-## 6. AWS 배포
-EC2, Gunicorn
+## 6. Language Model
+
+### LM 개요
+
+* `GPT-4.1-mini`
+
+* Persona: Few-shot Prompting(Fine-tuning X)
+
+* RAG: Chroma DB(의학 논문 + 전문가 기고문)
+
+  * top-k: 3 -> 종합.
+
+### 성능평가(RAGAS)
+
+* Q - A(Ground Truths) 페어 생성
+
+```python
+eval_examples = [
+    {
+        "question": "재활 운동이 무릎 통증에 어떤 영향을 미치나요?",
+        "ground_truth_answer": "재활 운동은 무릎 통증 감소, 관절 기능 향상, 근력 강화 및 안정성 증대에 긍정적인 영향을 미칩니다. 이는 통증의 원인이 되는 염증을 줄이고, 약해진 근육을 강화하여 무릎 관절에 가해지는 부담을 경감시키기 때문입니다."
+    },
+    {
+        "question": "필라테스의 주요 효과는 무엇인가요?",
+        "ground_truth_answer": "필라테스는 코어 근육 강화, 자세 교정, 유연성 및 균형 감각 향상, 스트레스 감소, 신체 인지 능력 증진 등의 효과가 있습니다. 특히 복부, 등, 엉덩이 근육을 중심으로 전신 근육을 강화하여 신체 정렬을 돕습니다."
+    },
+    {
+        "question": "생체역학 연구의 최신 동향은 무엇인가요?",
+        "ground_truth_answer": "생체역학 연구는 웨어러블 센서, AI 기반 동작 분석, 3D 프린팅을 활용한 맞춤형 보조기구 개발, 가상 현실(VR) 및 증강 현실(AR)을 이용한 재활 훈련 등 다양한 최신 동향을 보이고 있습니다. 이는 데이터 기반의 정밀한 인체 움직임 분석과 개인 맞춤형 치료법 개발에 기여합니다."
+    },
+    ...
+]
+```
+
+* 평가 결과
+
+<img src="image/image_ragas" width="500"/>
+
+  * top_k = 3일때의 성능
+
+  * 개선 방향
+
+    * 1. Baseline Model을 도메인에 전문화된 모델로 변경
+
+    * 2. Vector DB 내 임베딩 데이터 청크 전략 수립
+
 <br><br>
 
 --------------------------------------------
-## 7. 최종프로젝트 보완점 
+## 7. AWS 배포
+
+본 프로젝트의 EC2에 직접 접근하는 방법을 다룹니다. 서비스 자체는 웹 브라우저 상에서 `15.165.13.216`으로 접근 가능합니다. 
+
+### 1. AWS EC2에 접속
+
+- SSH 방식을 채택하였습니다. 전용 `.pem` 키 페어를 요청하여 받으시면 EC2에 접속 가능합니다.
+
+```bash
+ssh -i ".pem 파일 경로" ubuntu@15.165.13.216
+```
+
+- 서버 기본 패키지를 설치합니다.
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade -y
+
+sudo apt-get install -y python3-pip python3-dev nginx git
+
+sudo apt-get install -y libpq-dev postgresql-client postgresql-client-common
+```
+
+### 2. 환경 설정
+
+- 본 프로젝트를 clone합니다.
+
+```bash
+cd /home/ubuntu/
+git clone https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-4th-4Team.git
+```
+
+- 가상 환경을 설정하고, 필요한 라이브러리를 다운로드받습니다.
+
+```bash
+cd SKN13-4th-4Team/sera_influencer
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+- 정적 파일과 DB 관련 처리를 수행합니다.
+
+```bash
+python manage.py collectstatic
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 웹 어플리케이션 서버(Gunicorn) 설정
+
+```bash
+sudo nano /etc/systemd/system/gunicorn.service
+```
+
+```bash
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/SKN13-4th-4Team/ai_influencer_sera_backup
+ExecStart=/home/ubuntu/SKN13-4th-4Team/sera_influencer/.venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/SKN13-4th-4Team/sera_influencer/gunicorn.sock config.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+sudo systemctl status gunicorn
+```
+
+### 웹 서버(Nginx) 설정
+
+```bash
+sudo nano /etc/nginx/sites-available/myproject
+```
+
+```bash
+server {
+    listen 80;
+    server_name 15.165.13.216;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias /home/ubuntu/SKN13-4th-4Team/sera_influencer/staticfiles;
+    }
+
+    location /media/ {
+        root /home/ubuntu/SKN13-4th-4Team/sera_influencer;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/SKN13-4th-4Team/sera_influencer/gunicorn.sock;
+    }
+}
+```
+```bash
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+sudo systemctl status nginx
+```
+
+<br><br>
+
+--------------------------------------------
+## 8. 최종프로젝트 보완점 
 
 1. AI의 진화<br>
 - 단순한 Q&A 응답을 넘어, AI가 사용자의 상태 변화와 감정 흐름을 읽고 적절한 대화를 이끌어내는 방향으로 확장 예정<br>
@@ -285,22 +460,21 @@ EC2, Gunicorn
 3. 실질적 운동 조력자 역할<br>
 - 사용자 맞춤형으로 스트레칭 도구, 자세 보정 용품, 운동 루틴 영상/이미지/음성 가이드를 제시<br>
 - 상황에 따라 아침 스트레칭, 야간 통증 완화 운동 등 시간대별 맞춤 운동 제안<br>
-- 향후 센서/기기 연동을 통한 실시간 자세 교정 피드백 기능도 고려<br>
 
 
 
 <br><br>
 
 --------------------------------------------
-## 8. 한 줄 회고 💭
+## 9. 한 줄 회고 💭
 
 | 이름 | 한 줄 회고 |
 |:------:|-------------------|
 | 재회 | EC2야 아프지마|
-| 지호 | 써|
-| 현아 | 주|
-| 재범 | 세요|
-| 진슬 | 넘 재밌다.. 최종 기대돼요🤩|
+| 지호 | 아 운동가야되는데.. |
+| 현아 | 생각보다 정말 시간이 촉박해서 많이 아쉬웠습니다. 그만큼 최종 때 조금 더 잘할 수 있을 거라 생각합니다. 다들 너무 감사했고, 많이 죄송해요ㅠ 최종 때는 진짜,,, 잘 해볼게요,,ㅠ |
+| 재범 | 다시는서버에서개발하지않겠습니다다시는서버에서개발하지않겠습니다다시는서버에서개발하지않겠습니다 |
+| 진슬 | 넘 재밌다.. 최종 기대돼요🤩| 
 
 
 
