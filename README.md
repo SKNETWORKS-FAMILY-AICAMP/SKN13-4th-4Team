@@ -16,19 +16,19 @@
     </tr>
     <tr>
       <td align="center">
-          <img alt="<img src="image_readme/profile_jaehoi.png" width="80"/> " src="" width="200px;" alt="구재회"/>
+        <img src="image_readme/profile_jaehoi.png" width="200px;"/>
       </td>
       <td align="center">
-          <img alt="image_readme/profile_jiho.png" src="" width="200px;" alt="모지호"/>
+        <img src="image_readme/profile_jiho.png" width="200px;"/>
       </td>
       <td align="center">
-        <img alt="image_readme/profile_hyuna.png" src="" width="200px;" alt="박현아" />
+        <img src="image_readme/profile_hyuna.png" width="200px;"/>
       </td>
       <td align="center">
-        <img alt="image_readme/profile_jaebeom.png" src="" width="200px;" alt="이재범"/>
+        <img src="image_readme/profile_jaebeom.png" width="200px;"/>
       </td>
       <td align="center">
-        <img alt="image_readme/profile_jinseul.png" src="" width="200px;" alt="장진슬"/>
+        <img src="image_readme/profile_jinseul.png" width="200px;"/>
       </td>
     </tr>
     <tr>
@@ -64,8 +64,9 @@
 
 ### R&R
 
-
-
+<p align="center">
+  <img src="image_readme/rnr.png" width="500" />
+</p>
 
 
 ## 2.1 Project Overview - 프로젝트 소개
@@ -136,35 +137,75 @@
 
 --------------------------------------------
 ## 3. System Architecture
-
+<br>
 <p align="center">
-  <img src="img/system_architecture.png" width="550"/>
+  <img src="image_readme/system_architecture.png" width="500"/>
 </p>
-
+<br>
 --------------------------------------------
 
-## 4. Preprocessing
+## 4. 주요 기능
+### 4.1 💬 채팅 시스템
+<br>
+
+### 4.2 📊 투표 시스템
+<br>
+
+### 4.3 🔐 사용자 인증
+<br>
+
+### 4.4 ⚙️ 세션 관리
 
 <br><br>
 
 --------------------------------------------
-## 5. Model
-
+## 5. 구현 화면 
+### 5.1 Home
+  <img src="image_readme/login_home.png" width="500" />
+<br>
+### 5.2 Login
+  <img src="image_readme/login.png" width="500" />
+<br>
+### 5.3 Sign up
+  <img src="image_readme/signup.png" width="500" />
+<br>  
+### 5.4 Chat
+  <img src="image_readme/login_chat.png" width="500" />
+<br>
+### 5.5 Feed
+  <img src="image_readme/login_feed.png" width="500" />
+<br>
+### 5.6 Vote / Vote result
+  <img src="image_readme/login_vote.png" width="500" />
+  <img src="image_readme/login_vote_result.png" width="500" />
+<br>
+### 5.7 Profile change
+  <img src="image_readme/login_profile_change1.png" width="500" />
+  <img src="image_readme/login_profile_change2.png" width="500" />
 <br><br>
 
 --------------------------------------------
-## 6. Vector DB
+## 6. DB 구축
 
 * 💽 DB 선택: Chroma
 <br><br>
 
 --------------------------------------------
-## 7. RAG-based QA Chatbot 구현 
-
+## 7. AWS 배포
+EC2, Gunicorn
 <br><br>
 
 --------------------------------------------
-### 8. 기대 효과 
+### 8. 최종프로젝트에 구현할 것
+AI가 먼저 말을 걸고, 사용자의 과거 대화를 기억하며,
+**“오랜만이에요, 지난번 통증은 좀 나아지셨어요?”**와 같은 시간기반/기억기반 반응을 실현할 예정입니다.
+또한 **“더 나은 트레이너가 되고 싶다”**, “앞으로 이런 피드백을 더 잘 반영하고 싶다”는 식의 **의지 표현**을 통해,
+AI가 **목표를 가진 존재처럼 반응하는 인간형 인플루언서**의 모습을 구현하고자 합니다.
+<br>
+여기에 더해, 사용자의 운동 목적이나 증상에 맞춰
+**운동 방법과 재활 동작을 이미지, 영상, 음성으로 안내하고**,
+스트레칭 도구, 자세 보조 용품, 생활 습관 팁 등도 함께 제안함으로써
+**실질적인 운동 조력자 역할까지 수행하는 멀티모달 AI 인플루언서**를 목표로 합니다.
 
 <br><br>
 
