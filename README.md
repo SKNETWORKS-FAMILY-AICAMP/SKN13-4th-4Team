@@ -16,19 +16,19 @@
     </tr>
     <tr>
       <td align="center">
-          <img alt="Image" src="" width="200px;" alt="구재회"/>
+          <img alt="<img src="image_readme/profile_jaehoi.png" width="80"/> " src="" width="200px;" alt="구재회"/>
       </td>
       <td align="center">
-          <img alt="Image" src="" width="200px;" alt="모지호"/>
+          <img alt="image_readme/profile_jiho.png" src="" width="200px;" alt="모지호"/>
       </td>
       <td align="center">
-        <img alt="Image" src="" width="200px;" alt="박현아" />
+        <img alt="image_readme/profile_hyuna.png" src="" width="200px;" alt="박현아" />
       </td>
       <td align="center">
-        <img alt="Image" src="" width="200px;" alt="이재범"/>
+        <img alt="image_readme/profile_jaebeom.png" src="" width="200px;" alt="이재범"/>
       </td>
       <td align="center">
-        <img alt="Image" src="" width="200px;" alt="장진슬"/>
+        <img alt="image_readme/profile_jinseul.png" src="" width="200px;" alt="장진슬"/>
       </td>
     </tr>
     <tr>
@@ -62,7 +62,8 @@
 <br>
 <br/><br/>
 
-담당 업무 
+### R&R
+
 
 
 
