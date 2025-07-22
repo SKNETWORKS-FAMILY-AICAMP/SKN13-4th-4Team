@@ -25,7 +25,7 @@
         <img src="image_readme/profile_hyuna.png" width="200px;"/>
       </td>
       <td align="center">
-        <img src="image_readme/profile_jaebeom.png" width="200px;"/>
+        <img src="image_readme/profile-jaebeom.png" width="200px;"/>
       </td>
       <td align="center">
         <img src="image_readme/profile_jinseul.png" width="200px;"/>
@@ -64,9 +64,9 @@
 
 ### R&R
 
-<p align="center">
-  <img src="image_readme/rnr.png" width="500" />
-</p>
+
+<img src="image_readme/rnr.png" width="600" />
+
 
 
 ## 2.1 Project Overview - 프로젝트 소개
@@ -161,25 +161,38 @@
 --------------------------------------------
 ## 5. 구현 화면 
 ### 5.1 Home
+<br>
   <img src="image_readme/login_home.png" width="500" />
 <br>
+
 ### 5.2 Login
+<br>
   <img src="image_readme/login.png" width="500" />
 <br>
+
 ### 5.3 Sign up
+<br>
   <img src="image_readme/signup.png" width="500" />
 <br>  
+
 ### 5.4 Chat
+<br>
   <img src="image_readme/login_chat.png" width="500" />
 <br>
+
 ### 5.5 Feed
+<br>
   <img src="image_readme/login_feed.png" width="500" />
 <br>
+
 ### 5.6 Vote / Vote result
+<br>
   <img src="image_readme/login_vote.png" width="500" />
   <img src="image_readme/login_vote_result.png" width="500" />
 <br>
+
 ### 5.7 Profile change
+<br>
   <img src="image_readme/login_profile_change1.png" width="500" />
   <img src="image_readme/login_profile_change2.png" width="500" />
 <br><br>
@@ -188,6 +201,11 @@
 ## 6. DB 구축
 
 * 💽 DB 선택: Chroma
+
+
+  <img src="image_readme/ERD.png" width="500" />
+
+
 <br><br>
 
 --------------------------------------------
@@ -202,6 +220,7 @@ AI가 먼저 말을 걸고, 사용자의 과거 대화를 기억하며,
 또한 **“더 나은 트레이너가 되고 싶다”**, “앞으로 이런 피드백을 더 잘 반영하고 싶다”는 식의 **의지 표현**을 통해,
 AI가 **목표를 가진 존재처럼 반응하는 인간형 인플루언서**의 모습을 구현하고자 합니다.
 <br>
+<br>
 여기에 더해, 사용자의 운동 목적이나 증상에 맞춰
 **운동 방법과 재활 동작을 이미지, 영상, 음성으로 안내하고**,
 스트레칭 도구, 자세 보조 용품, 생활 습관 팁 등도 함께 제안함으로써
@@ -211,7 +230,24 @@ AI가 **목표를 가진 존재처럼 반응하는 인간형 인플루언서**�
 
 --------------------------------------------
 ### 9. 한 줄 회고 💭
-<br><br>
+
+| 이름 | 한 줄 회고 |
+|:------:|-------------------|
+| 재회 | |
+| 지호 | |
+| 현아 | |
+| 재범 | |
+| 진슬 | |
+
+
+
+
+<br/><br/>
+<br/><br/>
+<br/><br/>
+
+
+끝.
 
 
 
