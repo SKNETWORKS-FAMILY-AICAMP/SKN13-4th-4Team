@@ -320,7 +320,7 @@ eval_examples = [
 
 * 평가 결과
 
-<img src="image/image_ragas" width="500"/>
+<img src="image_readme/image_ragas.png" width="800"/>
 
   * top_k = 3일때의 성능
 
