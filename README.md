@@ -170,7 +170,8 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.1 Home - 홈
 <br>
-<img src="image_readme/sera_logout_home.png" width="800">
+<img src="image_readme/sera_logout_home.png" width="600">
+<br>
 - 로그인 버튼 : 로그인 창으로 이동한다.<br>
 - 재활운동 질문하기 버튼 : AI 챗봇 화면으로 이동한다. 로그인한 사람만 이용할 수 있다.("로그인을 하세요")<br>
 - 운동피드 보기 버튼 : 인스타그램 형식의 SNS 게시물 화면으로 이동한다. 로그인을 안해도 피드 창으로 이동 가능하다. <br>
@@ -180,7 +181,8 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.2 Login - 로그인
 <br>
-<img src="image_readme/sera_login.png" width="800" />
+<img src="image_readme/sera_login.png" width="600" />
+<br>
 - 아이디 입력란 : 회원가입을 완료한 아이디를 입력한다. <br>
 - 비밀번호 입력란 : 회원가입을 완료한 아이디의 비밀번호를 입력한다.<br>
 - 로그인 버튼 : 아이디와 비밀번호를 입력하고 버튼을 누르면 로그인이 된다.<br>
@@ -191,7 +193,8 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.3 Sign up - 회원가입
 <br>
-<img src="image_readme/sera_signup.png" width="800" />
+<img src="image_readme/sera_signup.png" width="600" />
+<br>  
 - 아이디 입력란 : 회원가입을 할 아이디를 입력한다. ("영문, 숫자 조합 4-20자")<br>
 - 비밀번호 입력란 : 회원가입을 할 아이디의 비밀번호를 입력한다. ("6자 이상 입력해주세요.")<br>
 - 비밀번호 확인 검사란 : 비밀번호를 재입력해 위의 비밀번호와 같은지 검사한다. <br>
@@ -204,7 +207,8 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.4 💬 Chat - 채팅 시스템
 <br>
-<img src="image_readme/sera_login_chat.png" width="800" />
+<img src="image_readme/sera_login_chat.png" width="600" />
+<br>
 - 챗봇 질문 입력 칸 : 궁금한 점을 입력 칸에 입력한다.<br>
 - 챗봇 질문 입력 버튼 : 질문을 입력하고 버튼을 누른다. 엔터로도 활성화 된다.<br>
 - 질문과 답변은 세션별로 DB에 저장된다. 
@@ -212,7 +216,8 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.5 📱Feed - SNS 구현
 <br>
-<img src="image_readme/sera_login_feed.png" width="800" />
+<img src="image_readme/sera_login_feed.png" width="600" />
+<br>
 - 좋아요 버튼 : 하트를 누르면 빨간 하트로 변한다. 우측의 좋아요가 +1 된다.<br>
 - 댓글 : 댓글을 달면 화면에 등록된다, 작성자만이 삭제가 가능하다. <br>
 - 좋아요와 댓글은 DB에 저장된다.
@@ -220,20 +225,22 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 ### 4.6 📊 Vote / Vote result - 투표 시스템
 <br>
-<img src="image_readme/sera_login_vote.png" width="800" />
+<img src="image_readme/sera_login_vote.png" width="600" />
+<br>
 - 투표 선택지 버튼 : 투표 선택지 중 하나를 클릭하면 왼쪽 동그라미 색깔이 변한다. <br>
 - 투표하기 버튼 : 선지를 선택하고 투표하기 버튼을 누른다. 이미 선택한 선지는 선택할 수 없다. <br>
 - 투표를 하면 투표자 수, 선지가 DB에 저장된다. 
 
 <br>
-<img src="image_readme/sera_login_vote_result.png" width="800" />
+<img src="image_readme/sera_login_vote_result.png" width="600" />
 - 투표 결과 창 <br>
 - DB에 저장된 투표 결과를 보여준다. 
 
 ### 4.7 Profile change - 회원정보 변경 
 <br>
-<img src="image_readme/sera_login_profile_change1.png" width="800" />
-<img src="image_readme/sera_login_profile_change2.png" width="800" />
+<img src="image_readme/sera_login_profile_change1.png" width="600" />
+<img src="image_readme/sera_login_profile_change2.png" width="600" />
+<br>
 - 기본정보-아이디 : 가입한 아이디를 확인할 수 있다. <br>
 - 기본정보-이름 : 가입 시 입력한 이름을 확인할 수 있다. <br>
 - 기본적보-이메일 : 가입 시 입력한 이메일을 확인할 수 있다. <br>
@@ -251,7 +258,14 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 
 <img src="image_readme/ERD.png" width="500"/>
 
-💽 DB 선택: Chroma<br>
+💽 DB: PostgreSQL<br>
+- 엄격한 ACID(Atomicity, Consistency, Isolation, Durability)<br>
+- 다중 사용자 환경 친화: Multiversion Concurrency Control<br>
+- Query Planner: 복잡한 JOIN, subquery 처리 우수<br>
+- Django와의 호환성: `JSONField`, `ArrayField`, ...<br>
+- 무료 오픈소스 Top-tier DB<br>
+
+💽 Vector DB: Chroma<br>
 - 논문과 전문가 기고문을 각각 파싱<br>
 - 문서를 일정한 청크로 분할<br>
 - OpenAI의 text-embedding-3-large 모델을 통해 임베딩<br>
@@ -261,12 +275,160 @@ LLM 기반 AI 인플루언서는 사람들에게 개성을 팔고, 제품 소구
 <br><br>
 
 --------------------------------------------
-## 6. AWS 배포
-EC2, Gunicorn
+## 6. Language Model
+
+### LM 개요
+
+* `GPT-4.1`
+
+* Persona: Few-shot Prompting(Fine-tuning X)
+
+* RAG: Chroma DB(의학 논문 + 전문가 기고문)
+
+### 성능평가(RAGAS)
+
+* Q - A(Ground Truths) 페어 생성
+
+```python
+eval_examples = [
+    {
+        "question": "재활 운동이 무릎 통증에 어떤 영향을 미치나요?",
+        "ground_truth_answer": "재활 운동은 무릎 통증 감소, 관절 기능 향상, 근력 강화 및 안정성 증대에 긍정적인 영향을 미칩니다. 이는 통증의 원인이 되는 염증을 줄이고, 약해진 근육을 강화하여 무릎 관절에 가해지는 부담을 경감시키기 때문입니다."
+    },
+    {
+        "question": "필라테스의 주요 효과는 무엇인가요?",
+        "ground_truth_answer": "필라테스는 코어 근육 강화, 자세 교정, 유연성 및 균형 감각 향상, 스트레스 감소, 신체 인지 능력 증진 등의 효과가 있습니다. 특히 복부, 등, 엉덩이 근육을 중심으로 전신 근육을 강화하여 신체 정렬을 돕습니다."
+    },
+    {
+        "question": "생체역학 연구의 최신 동향은 무엇인가요?",
+        "ground_truth_answer": "생체역학 연구는 웨어러블 센서, AI 기반 동작 분석, 3D 프린팅을 활용한 맞춤형 보조기구 개발, 가상 현실(VR) 및 증강 현실(AR)을 이용한 재활 훈련 등 다양한 최신 동향을 보이고 있습니다. 이는 데이터 기반의 정밀한 인체 움직임 분석과 개인 맞춤형 치료법 개발에 기여합니다."
+    }
+]
+```
+
+* 평가 결과
+
+<img src="image_readme/image_ragas.png" width="500"/>
+
 <br><br>
 
 --------------------------------------------
-## 7. 최종프로젝트 보완점 
+## 7. AWS 배포
+
+본 프로젝트의 EC2에 직접 접근하는 방법을 다룹니다. 서비스 자체는 웹 브라우저 상에서 `15.165.13.216`으로 접근 가능합니다. 
+
+### 1. AWS EC2에 접속
+
+- SSH 방식을 채택하였습니다. 전용 `.pem` 키 페어를 요청하여 받으시면 EC2에 접속 가능합니다.
+
+```bash
+ssh -i ".pem 파일 경로" ubuntu@15.165.13.216
+```
+
+- 서버 기본 패키지를 설치합니다.
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade -y
+
+sudo apt-get install -y python3-pip python3-dev nginx git
+
+sudo apt-get install -y libpq-dev postgresql-client postgresql-client-common
+```
+
+### 2. 환경 설정
+
+- 본 프로젝트를 clone합니다.
+
+```bash
+cd /home/ubuntu/
+git clone https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-4th-4Team.git
+```
+
+- 가상 환경을 설정하고, 필요한 라이브러리를 다운로드받습니다.
+
+```bash
+cd SKN13-4th-4Team/sera_influencer
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+- 정적 파일과 DB 관련 처리를 수행합니다.
+
+```bash
+python manage.py collectstatic
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 웹 어플리케이션 서버(Gunicorn) 설정
+
+```bash
+sudo nano /etc/systemd/system/gunicorn.service
+```
+
+```bash
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/SKN13-4th-4Team/ai_influencer_sera_backup
+ExecStart=/home/ubuntu/SKN13-4th-4Team/sera_influencer/.venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/SKN13-4th-4Team/sera_influencer/gunicorn.sock config.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+sudo systemctl status gunicorn
+```
+
+### 웹 서버(Nginx) 설정
+
+```bash
+sudo nano /etc/nginx/sites-available/myproject
+```
+
+```bash
+server {
+    listen 80;
+    server_name 15.165.13.216;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias /home/ubuntu/SKN13-4th-4Team/sera_influencer/staticfiles;
+    }
+
+    location /media/ {
+        root /home/ubuntu/SKN13-4th-4Team/sera_influencer;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/SKN13-4th-4Team/sera_influencer/gunicorn.sock;
+    }
+}
+```
+```bash
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+sudo systemctl status nginx
+```
+
+<br><br>
+
+--------------------------------------------
+## 8. 최종프로젝트 보완점 
 
 1. AI의 진화<br>
 - 단순한 Q&A 응답을 넘어, AI가 사용자의 상태 변화와 감정 흐름을 읽고 적절한 대화를 이끌어내는 방향으로 확장 예정<br>
@@ -284,14 +446,14 @@ EC2, Gunicorn
 <br><br>
 
 --------------------------------------------
-## 8. 한 줄 회고 💭
+## 9. 한 줄 회고 💭
 
 | 이름 | 한 줄 회고 |
 |:------:|-------------------|
 | 재회 | EC2야 아프지마|
 | 지호 | 써|
 | 현아 | 주|
-| 재범 | 세요|
+| 재범 | 다시는서버에서개발하지않겠습니다다시는서버에서개발하지않겠습니다다시는서버에서개발하지않겠습니다 |
 | 진슬 | 넘 재밌다.. 최종 기대돼요🤩|
 
 
